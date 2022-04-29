@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kruskal.cs" />
+    <Compile Include="VertexSet.cs" />
     <Compile Include="ColorQuantization.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

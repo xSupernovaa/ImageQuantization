@@ -9,9 +9,13 @@ namespace ImageQuantization
     {
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
-            List<RGBPixel> colorsList = GetDistinctColorsHashSet(ImageMatrix);
+            List<RGBPixel> colorsList = GetDistinctColorsList(ImageMatrix);
             double[,] colorsGraph = createDistinctColorsGraph(colorsList);
+            
+            VertexSet set = Kruskal.RunKruskal(colorsList ,colorsGraph, number_of_clusters);
 
+            Dictionary<int, List<RGBPixel>> clusters = set.GetClusters(colorsList);
+            
             return ImageMatrix;
 
         }
@@ -36,7 +40,7 @@ namespace ImageQuantization
             return colorsFrequencyArray;
         }
 
-        private static List<RGBPixel> GetDistinctColorsHashSet(RGBPixel[,] ImageMatrix)
+        private static List<RGBPixel> GetDistinctColorsList(RGBPixel[,] ImageMatrix)
         {
             HashSet<RGBPixel> distinctColors = new HashSet<RGBPixel>();
 
