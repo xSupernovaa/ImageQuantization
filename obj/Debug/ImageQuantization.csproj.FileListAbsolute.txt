@@ -31,3 +31,12 @@ C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantizati
 C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
 C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.exe
 C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.pdb
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\ImageQuantization.exe
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\ImageQuantization.pdb
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.csproj.AssemblyReference.cache
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.MainForm.resources
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.Properties.Resources.resources
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.csproj.GenerateResource.cache
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.exe
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.pdb

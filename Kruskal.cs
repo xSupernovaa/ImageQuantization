@@ -34,7 +34,6 @@ namespace ImageQuantization
             {
                 for (int j = i + 1; j < numOfVertices; j++)
                 {
-                    Console.Write(graph[i, j] + " ");
                     var newEdge = new Edge
                     {
                         from = i,

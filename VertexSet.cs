@@ -58,7 +58,7 @@ namespace ImageQuantization
             Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
             for (int i = 0; i < members.Length; i++)
             {
-                if (clusters[members[i]] == null)
+                if (!clusters.ContainsKey(members[i]))
                 {
                     clusters[members[i]] = new List<RGBPixel>();
                 }
