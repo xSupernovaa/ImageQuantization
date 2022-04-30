@@ -101,7 +101,6 @@ namespace ImageQuantization
             this.label2.Size = new System.Drawing.Size(185, 24);
             this.label2.TabIndex = 4;
             this.label2.Text = "Quantized Image";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // btnGaussSmooth
             // 
@@ -177,7 +176,6 @@ namespace ImageQuantization
             this.txtGaussSigma.Size = new System.Drawing.Size(75, 27);
             this.txtGaussSigma.TabIndex = 14;
             this.txtGaussSigma.Text = "1";
-            this.txtGaussSigma.TextChanged += new System.EventHandler(this.txtGaussSigma_TextChanged);
             // 
             // panel1
             // 

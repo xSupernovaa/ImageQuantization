@@ -45,7 +45,7 @@ namespace ImageQuantization
             }
             return edges;
         }
-        public static VertexSet RunKruskal(List<RGBPixel> vertices, double[,] graph, int number_of_clusters)
+        public static VertexSet RunKruskal(List<RGBPixel> vertices, List<Edge> EdgeList, int number_of_clusters)
         {
             int verticesCount = vertices.Count;
             VertexSet set = new VertexSet(verticesCount);
@@ -56,16 +56,15 @@ namespace ImageQuantization
                 set.MakeSet(vertexIndex);
             }
             
-            ArrayList edges = GetEdgesFromGraph(graph);
-            edges.Sort(); //O(ElogE)
-            for(int i = 0; i< edges.Count; i++)
+            EdgeList.Sort(); //O(ElogE)
+            for(int i = 0; i< EdgeList.Count; i++)
             {
                 if (set.number_of_clusters == number_of_clusters) break;
 
-                var castedEdge = edges[i] as Edge;
-                if (set.FindSet(castedEdge.from) != set.FindSet(castedEdge.to))
+                Edge edge = EdgeList[i];
+                if (set.FindSet(edge.from) != set.FindSet(edge.to))
                 {
-                    set.UnionSet(castedEdge.from, castedEdge.to); //O(V * O(UnionSet))
+                    set.UnionSet(edge.from, edge.to); //O(V * O(UnionSet))
                 }
             }
 
