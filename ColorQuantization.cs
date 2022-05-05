@@ -12,18 +12,42 @@ namespace ImageQuantization
         {
             // O(N^2)
             List<RGBPixel> distinctColorsList = GetDistinctColorsList(ImageMatrix);
-
+            
+            ///DEBUG
+            Console.WriteLine("finished GetDistinctColorsList at " + (MainForm.stopWatch.Elapsed).ToString());
+            ///END DEBUG
+            
             // O((V * ((V - 1) / 2)) --> O(V^2) where V is the number of distinct colors
             List<Edge> distinctColorsGraph = createDistinctColorsGraphEdgeList(distinctColorsList);
             
+            //DEBUG
+            Console.WriteLine("finished createDistinctColorsGraphEdgeList at " + (MainForm.stopWatch.Elapsed).ToString());
+            ///END DEBUG
+            
             VertexSet set = Kruskal.RunKruskal(distinctColorsList ,distinctColorsGraph, number_of_clusters);
 
+            ///DEBUG
+            Console.WriteLine("finished RunKruskal at " + (MainForm.stopWatch.Elapsed).ToString());
+            ///END DEBUG
+            
             Dictionary<int, List<RGBPixel>> clusters = VertexSet.GetClusters(distinctColorsList, set.getMembers());
 
+            ///DEBUG
+            Console.WriteLine("finished GetClusters at " + (MainForm.stopWatch.Elapsed).ToString());
+            ///END DEBUG
+
             // O(V) where V is the number of distinct colors
-            List<RGBPixel> colorPallette = set.GetColorPallette(clusters);
+            List<RGBPixel> colorPallette = VertexSet.GetColorPallette(clusters);
+
+            ///DEBUG
+            Console.WriteLine("finished GetColorPallette at " + (MainForm.stopWatch.Elapsed).ToString());
+            ///END DEBUG
 
             ReduceImageColors(ImageMatrix, colorPallette);
+
+            ///DEBUG
+            Console.WriteLine("finished ReduceImageColors at " + (MainForm.stopWatch.Elapsed).ToString());
+            ///END DEBUG
 
             int countColorsBefore = distinctColorsList.Count;
             int countColorsAfter = colorPallette.Count;

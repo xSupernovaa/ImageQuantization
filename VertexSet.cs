@@ -7,6 +7,7 @@ namespace ImageQuantization
     {
         private int[] members;
         public int number_of_clusters;
+        public double sumMST = 0;
         public VertexSet(int size)
         {
             members = new int[size];
@@ -70,7 +71,7 @@ namespace ImageQuantization
             return clusters;
         }
 
-        public List<RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> cluster)
+        public static List<RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> cluster)
         {
             // for every member of cluster sum all values and get the mean for the sum
             List<RGBPixel> colorPallete = new List<RGBPixel>();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lucene.Net.Util;
-//import priority queue library
 
 namespace ImageQuantization
 {
@@ -51,7 +50,6 @@ namespace ImageQuantization
             }
             double totalWeight = 0;
             while (set.number_of_clusters != number_of_clusters && pq.Size() > 0)
-            //while (pq.Size() > 0)
             {
                 Edge edge = pq.Pop();
 
@@ -64,6 +62,7 @@ namespace ImageQuantization
                     set.UnionSet(firstColorSet, secondColorSet); //O(V * O(UnionSet))
                 }
             }
+            set.sumMST = totalWeight;
             Console.WriteLine("total weight: " + totalWeight);
 
             return set;

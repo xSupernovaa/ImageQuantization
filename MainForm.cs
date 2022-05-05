@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 namespace ImageQuantization
 {
+
     public partial class MainForm : Form
     {
         public MainForm()
@@ -30,14 +31,14 @@ namespace ImageQuantization
             txtWidth.Text = ImageOperations.GetWidth(OriginalImageMatrix).ToString();
             txtHeight.Text = ImageOperations.GetHeight(OriginalImageMatrix).ToString();
         }
-
+        public static Stopwatch stopWatch;
         private void btnGaussSmooth_Click(object sender, EventArgs e)
         {
             int clusters = int.Parse(txtGaussSigma.Text);
 
             RGBPixel[,] QuantizedImageMatrix = (RGBPixel[,])OriginalImageMatrix.Clone();
 
-            Stopwatch stopWatch = new Stopwatch();
+            stopWatch = new Stopwatch();
             // Get the elapsed time as a TimeSpan value.
             stopWatch.Start();
             ColorQuantization.ColorQuantize(QuantizedImageMatrix, clusters);
