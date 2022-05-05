@@ -15,36 +15,13 @@ namespace ImageQuantization
         public int CompareTo(object obj)
         {
             if (obj == null) return 1;
-
             Edge otherEdge = obj as Edge;
             return this.weight.CompareTo(otherEdge.weight);
         }
     }
+
     internal class Kruskal
     {
-        public static ArrayList GetEdgesFromGraph(double[,] graph) //O(E)
-        {
-            int numOfVertices = graph.GetLength(0);
-            int maxNumOfEdges = numOfVertices*(numOfVertices-1)/2;
-
-            ArrayList edges = new ArrayList();
-
-
-            for (int i = 0; i < numOfVertices; i++)
-            {
-                for (int j = i + 1; j < numOfVertices; j++)
-                {
-                    var newEdge = new Edge
-                    {
-                        from = i,
-                        to = j,
-                        weight = graph[i, j]
-                    };
-                    edges.Add(newEdge);
-                }
-            }
-            return edges;
-        }
         public static VertexSet RunKruskal(List<RGBPixel> vertices, List<Edge> EdgeList, int number_of_clusters)
         {
             int verticesCount = vertices.Count;
@@ -62,10 +39,12 @@ namespace ImageQuantization
                 if (set.number_of_clusters == number_of_clusters) break;
 
                 Edge edge = EdgeList[i];
-                if (set.FindSet(edge.from) != set.FindSet(edge.to))
-                {
-                    set.UnionSet(edge.from, edge.to); //O(V * O(UnionSet))
-                }
+
+                int firstColorSet = set.FindSet(edge.from);
+                int secondColorSet = set.FindSet(edge.to);
+
+                if (firstColorSet != secondColorSet)
+                    set.UnionSet(firstColorSet, secondColorSet); //O(V * O(UnionSet))
             }
 
             return set;

@@ -15,7 +15,7 @@ namespace ImageQuantization
             InitializeComponent();
         }
 
-        RGBPixel[,] ImageMatrix;
+        RGBPixel[,] OriginalImageMatrix;
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
@@ -24,18 +24,29 @@ namespace ImageQuantization
             {
                 //Open the browsed image and display it
                 string OpenedFilePath = openFileDialog1.FileName;
-                ImageMatrix = ImageOperations.OpenImage(OpenedFilePath);
-                ImageOperations.DisplayImage(ImageMatrix, pictureBox1);
+                OriginalImageMatrix = ImageOperations.OpenImage(OpenedFilePath);
+                ImageOperations.DisplayImage(OriginalImageMatrix, pictureBox1);
             }
-            txtWidth.Text = ImageOperations.GetWidth(ImageMatrix).ToString();
-            txtHeight.Text = ImageOperations.GetHeight(ImageMatrix).ToString();
+            txtWidth.Text = ImageOperations.GetWidth(OriginalImageMatrix).ToString();
+            txtHeight.Text = ImageOperations.GetHeight(OriginalImageMatrix).ToString();
         }
 
         private void btnGaussSmooth_Click(object sender, EventArgs e)
         {
             int clusters = int.Parse(txtGaussSigma.Text);
-            ImageMatrix = ColorQuantization.ColorQuantize(ImageMatrix, clusters);
-            ImageOperations.DisplayImage(ImageMatrix, pictureBox2);
+
+            RGBPixel[,] QuantizedImageMatrix = (RGBPixel[,])OriginalImageMatrix.Clone();
+            ColorQuantization.ColorQuantize(QuantizedImageMatrix, clusters);
+            if (pictureBox2.Image != null)
+            {
+                pictureBox2.Image = null;
+                pictureBox2.Update();
+                MessageBox.Show("Cleared!");
+            }
+
+            ImageOperations.DisplayImage(QuantizedImageMatrix, pictureBox2);
+
+            MessageBox.Show("Done");
         }
 
     }

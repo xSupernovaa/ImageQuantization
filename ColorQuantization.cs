@@ -11,27 +11,24 @@ namespace ImageQuantization
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
             // O(N^2)
-            List<RGBPixel> colorsList = GetDistinctColorsList(ImageMatrix);
+            List<RGBPixel> distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
             // O((V * ((V - 1) / 2)) --> O(V^2) where V is the number of distinct colors
-            List<Edge> colorsEdgeList = createDistinctColorsGraphEdgeList(colorsList);
+            List<Edge> distinctColorsGraph = createDistinctColorsGraphEdgeList(distinctColorsList);
             
-            VertexSet set = Kruskal.RunKruskal(colorsList ,colorsEdgeList, number_of_clusters);
+            VertexSet set = Kruskal.RunKruskal(distinctColorsList ,distinctColorsGraph, number_of_clusters);
 
-            Dictionary<int, List<RGBPixel>> clusters = set.GetClusters(colorsList);
-             Dictionary<int, RGBPixel> represet = set.representativcolor(clusters);
-           
+            Dictionary<int, List<RGBPixel>> clusters = set.GetClusters(distinctColorsList);
 
-            ////DEBUG
-            //foreach (var cluster in clusters)
-            //{
-            //    Console.WriteLine("Cluster " + cluster.Key + ":");
-            //    foreach (var color in cluster.Value)
-            //    {
-            //        Console.WriteLine(color.red + " " + color.green + " " + color.blue);
-            //    }
-            //}
-            ////DEBUG
+            // O(V) where V is the number of distinct colors
+            List<RGBPixel> colorPallette = set.GetColorPallette(clusters);
+
+            ReduceImageColors(ImageMatrix, colorPallette);
+
+            int countColorsBefore = distinctColorsList.Count;
+            int countColorsAfter = colorPallette.Count;
+
+            Console.WriteLine("Reduced number of colors in image from ", countColorsBefore, " to ", countColorsAfter);
 
             return ImageMatrix;
 
@@ -131,6 +128,47 @@ namespace ImageQuantization
             return colorsFrequencyArray;
         }
 
+        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, List<RGBPixel> ColorPallette)
+        {
+            int rows = ImageOperations.GetHeight(ImageMatrix);
+            int columns = ImageOperations.GetWidth(ImageMatrix);
 
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    RGBPixel currentColor = ImageMatrix[i, j];
+
+                    // Can we do better?
+                    RGBPixel newColor = Search(ColorPallette, currentColor);
+                    ImageMatrix[i, j] = newColor;
+                }
+            }
+            
+        }
+
+        private static RGBPixel Search(List<RGBPixel> colorPallette, RGBPixel currentColor)
+        {
+            int minIndex = 0;
+            double minDistance = 999999;
+
+            double distance = minDistance;
+            int indx = 0;
+
+            foreach (RGBPixel color in colorPallette)
+            {
+                distance = Distance(currentColor, color);
+                
+                if (distance <= minDistance)
+                {
+                    minDistance = distance;
+                    minIndex = indx;
+                }
+
+                indx++;
+            }
+
+            return colorPallette[minIndex];
+        }
     }
 }

@@ -45,7 +45,7 @@ namespace ImageQuantization
         {
             for(int i = 0; i < members.Length; i++)
             {
-                if(members[i] == members[u])
+                if(members[i] == u)
                 {
                     members[i] = v;
                 }
@@ -66,39 +66,29 @@ namespace ImageQuantization
             }
             return clusters;
         }
-         public Dictionary<int,RGBPixel> representativcolor (Dictionary<int, List<RGBPixel>> cluster)
+
+        public List<RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> cluster)
         {
-            //for every member of cluster sum all values and get the mean for the sum
-            Dictionary<int,RGBPixel> reprsent=new Dictionary<int, RGBPixel>();
+            // for every member of cluster sum all values and get the mean for the sum
+            List<RGBPixel> colorPallete = new List<RGBPixel>();
             foreach (int key in cluster.Keys)
             {
-                int sumRed=0;
-                int sumGreen=0;
-                int sumBlue=0;
-               
-                    foreach(RGBPixel pixel in cluster[key])
-                    {
-                    sumRed+=pixel.red;
-                    sumBlue+=pixel.blue;
-                    sumGreen+=pixel.green;
+                int sumRed = 0, sumGreen = 0, sumBlue = 0;
+                foreach (RGBPixel pixel in cluster[key])
+                {
+                    sumRed += pixel.red;
+                    sumBlue += pixel.blue;
+                    sumGreen += pixel.green;
 
-                    }
-                 Byte Red=Convert.ToByte(sumRed/cluster[key].Count);
-                Byte blue=Convert.ToByte(sumBlue/cluster[key].Count);
-                byte green=Convert.ToByte(sumGreen/cluster[key].Count);
-                RGBPixel Pixl=new RGBPixel();
-                Pixl.red=Red;
-                Pixl.green=green;
-                Pixl.blue=blue;
-                reprsent.Add(key,Pixl);
-                
-                  
+                }
+                byte red = Convert.ToByte(sumRed / cluster[key].Count);
+                byte green = Convert.ToByte(sumGreen / cluster[key].Count);
+                byte blue = Convert.ToByte(sumBlue / cluster[key].Count);
+
+                RGBPixel representitaveColor = new RGBPixel(red, green, blue);
+                colorPallete.Add(representitaveColor);
             }
-            return reprsent;
-            
+            return colorPallete;
         }
-      
-
-
     }
 }
