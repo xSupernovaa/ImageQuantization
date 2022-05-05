@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Diagnostics;
 namespace ImageQuantization
 {
     public partial class MainForm : Form
@@ -36,7 +36,16 @@ namespace ImageQuantization
             int clusters = int.Parse(txtGaussSigma.Text);
 
             RGBPixel[,] QuantizedImageMatrix = (RGBPixel[,])OriginalImageMatrix.Clone();
+
+            Stopwatch stopWatch = new Stopwatch();
+            // Get the elapsed time as a TimeSpan value.
+            stopWatch.Start();
             ColorQuantization.ColorQuantize(QuantizedImageMatrix, clusters);
+            stopWatch.Stop();
+
+            TimeSpan ts = stopWatch.Elapsed;
+
+
             if (pictureBox2.Image != null)
             {
                 pictureBox2.Image = null;
@@ -46,7 +55,7 @@ namespace ImageQuantization
 
             ImageOperations.DisplayImage(QuantizedImageMatrix, pictureBox2);
 
-            MessageBox.Show("Done");
+            MessageBox.Show(ts.ToString());
         }
 
     }
