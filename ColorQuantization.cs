@@ -28,7 +28,7 @@ namespace ImageQuantization
             int countColorsBefore = distinctColorsList.Count;
             int countColorsAfter = colorPallette.Count;
 
-            Console.WriteLine("Reduced number of colors in image from ", countColorsBefore, " to ", countColorsAfter);
+            Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
 
             return ImageMatrix;
 
