@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ImageQuantization
 {
@@ -9,11 +7,17 @@ namespace ImageQuantization
     {
         private int[] members;
         public int number_of_clusters;
+        public double sumMST = 0;
         public VertexSet(int size)
         {
             members = new int[size];
             number_of_clusters = size;
         }
+        public int[] getMembers()
+        {
+            return members;
+        }
+
 
         /// <summary>
         /// Creates new set and add u in it.
@@ -53,7 +57,7 @@ namespace ImageQuantization
             number_of_clusters--;
         }
 
-        public Dictionary<int, List<RGBPixel>> GetClusters(List<RGBPixel> colorsList)
+        public static Dictionary<int, List<RGBPixel>> GetClusters(List<RGBPixel> colorsList, int[] members)
         {
             Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
             for (int i = 0; i < members.Length; i++)
@@ -67,7 +71,7 @@ namespace ImageQuantization
             return clusters;
         }
 
-        public List<RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> cluster)
+        public static List<RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> cluster)
         {
             // for every member of cluster sum all values and get the mean for the sum
             List<RGBPixel> colorPallete = new List<RGBPixel>();

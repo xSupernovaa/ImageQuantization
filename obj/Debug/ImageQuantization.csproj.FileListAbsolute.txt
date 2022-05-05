@@ -49,3 +49,8 @@ C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.exe
 C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.pdb
 C:\Users\Hp\Documents\ImageQuantization\bin\Debug\ImageQuantization.exe
 C:\Users\Hp\Documents\ImageQuantization\bin\Debug\ImageQuantization.pdb
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\Lucene.Net.dll
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\Lucene.Net.pdb
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\Lucene.Net.xml
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.csproj.CopyComplete
