@@ -40,3 +40,12 @@ D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuan
 D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
 D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.exe
 D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.pdb
+C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.csproj.AssemblyReference.cache
+C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.MainForm.resources
+C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.Properties.Resources.resources
+C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.csproj.GenerateResource.cache
+C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
+C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.exe
+C:\Users\Hp\Documents\ImageQuantization\obj\Debug\ImageQuantization.pdb
+C:\Users\Hp\Documents\ImageQuantization\bin\Debug\ImageQuantization.exe
+C:\Users\Hp\Documents\ImageQuantization\bin\Debug\ImageQuantization.pdb

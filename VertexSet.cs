@@ -66,5 +66,39 @@ namespace ImageQuantization
             }
             return clusters;
         }
+         public Dictionary<int,RGBPixel> representativcolor (Dictionary<int, List<RGBPixel>> cluster)
+        {
+            //for every member of cluster sum all values and get the mean for the sum
+            Dictionary<int,RGBPixel> reprsent=new Dictionary<int, RGBPixel>();
+            foreach (int key in cluster.Keys)
+            {
+                int sumRed=0;
+                int sumGreen=0;
+                int sumBlue=0;
+               
+                    foreach(RGBPixel pixel in cluster[key])
+                    {
+                    sumRed+=pixel.red;
+                    sumBlue+=pixel.blue;
+                    sumGreen+=pixel.green;
+
+                    }
+                 Byte Red=Convert.ToByte(sumRed/cluster[key].Count);
+                Byte blue=Convert.ToByte(sumBlue/cluster[key].Count);
+                byte green=Convert.ToByte(sumGreen/cluster[key].Count);
+                RGBPixel Pixl=new RGBPixel();
+                Pixl.red=Red;
+                Pixl.green=green;
+                Pixl.blue=blue;
+                reprsent.Add(key,Pixl);
+                
+                  
+            }
+            return reprsent;
+            
+        }
+      
+
+
     }
 }

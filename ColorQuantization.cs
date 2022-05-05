@@ -19,6 +19,8 @@ namespace ImageQuantization
             VertexSet set = Kruskal.RunKruskal(colorsList ,colorsEdgeList, number_of_clusters);
 
             Dictionary<int, List<RGBPixel>> clusters = set.GetClusters(colorsList);
+             Dictionary<int, RGBPixel> represet = set.representativcolor(clusters);
+           
 
             ////DEBUG
             //foreach (var cluster in clusters)
