@@ -18,7 +18,7 @@ namespace ImageQuantization
             
             VertexSet set = Kruskal.RunKruskal(distinctColorsList ,distinctColorsGraph, number_of_clusters);
 
-            Dictionary<int, List<RGBPixel>> clusters = set.GetClusters(distinctColorsList);
+            Dictionary<int, List<RGBPixel>> clusters = VertexSet.GetClusters(distinctColorsList, set.getMembers());
 
             // O(V) where V is the number of distinct colors
             List<RGBPixel> colorPallette = set.GetColorPallette(clusters);

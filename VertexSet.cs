@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ImageQuantization
 {
@@ -14,6 +12,11 @@ namespace ImageQuantization
             members = new int[size];
             number_of_clusters = size;
         }
+        public int[] getMembers()
+        {
+            return members;
+        }
+
 
         /// <summary>
         /// Creates new set and add u in it.
@@ -53,7 +56,7 @@ namespace ImageQuantization
             number_of_clusters--;
         }
 
-        public Dictionary<int, List<RGBPixel>> GetClusters(List<RGBPixel> colorsList)
+        public static Dictionary<int, List<RGBPixel>> GetClusters(List<RGBPixel> colorsList, int[] members)
         {
             Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
             for (int i = 0; i < members.Length; i++)

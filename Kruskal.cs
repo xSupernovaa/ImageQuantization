@@ -38,6 +38,7 @@ namespace ImageQuantization
             VertexSet set = new VertexSet(verticesCount);
             //initalize the sets (each vertex is in its own set)
             //O(V)
+            
             for (int vertexIndex = 0; vertexIndex < verticesCount; vertexIndex++)
             {
                 set.MakeSet(vertexIndex);
@@ -48,7 +49,9 @@ namespace ImageQuantization
             {
                 pq.Add(e);
             }
+            double totalWeight = 0;
             while (set.number_of_clusters != number_of_clusters && pq.Size() > 0)
+            //while (pq.Size() > 0)
             {
                 Edge edge = pq.Pop();
 
@@ -57,9 +60,11 @@ namespace ImageQuantization
 
                 if (firstColorSet != secondColorSet)
                 {
+                    totalWeight += edge.weight;
                     set.UnionSet(firstColorSet, secondColorSet); //O(V * O(UnionSet))
                 }
             }
+            Console.WriteLine("total weight: " + totalWeight);
 
             return set;
         }
