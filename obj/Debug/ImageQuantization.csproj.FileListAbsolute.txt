@@ -54,3 +54,8 @@ D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuan
 D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\Lucene.Net.pdb
 D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\Lucene.Net.xml
 D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\obj\Debug\ImageQuantization.csproj.CopyComplete
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\Lucene.Net.dll
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\Lucene.Net.pdb
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\Lucene.Net.xml
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.CopyComplete

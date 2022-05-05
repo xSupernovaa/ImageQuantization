@@ -8,6 +8,8 @@ namespace ImageQuantization
 {
     class ColorQuantization
     {
+        private static Dictionary<RGBPixel, int> colorIndices;
+
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
             // O(N^2)
@@ -37,13 +39,13 @@ namespace ImageQuantization
             ///END DEBUG
 
             // O(V) where V is the number of distinct colors
-            List<RGBPixel> colorPallette = VertexSet.GetColorPallette(clusters);
+            Dictionary<int, RGBPixel> colorPallette = VertexSet.GetColorPallette(clusters);
 
             ///DEBUG
             Console.WriteLine("finished GetColorPallette at " + (MainForm.stopWatch.Elapsed).ToString());
             ///END DEBUG
 
-            ReduceImageColors(ImageMatrix, colorPallette);
+            ReduceImageColors(ImageMatrix, colorPallette, set);
 
             ///DEBUG
             Console.WriteLine("finished ReduceImageColors at " + (MainForm.stopWatch.Elapsed).ToString());
@@ -63,8 +65,17 @@ namespace ImageQuantization
         {
             HashSet<RGBPixel> distinctColors = new HashSet<RGBPixel>();
 
+
             foreach (RGBPixel pixel in ImageMatrix)
                 distinctColors.Add(pixel);
+
+            List<RGBPixel> colorsList = distinctColors.ToList();
+
+            colorIndices = new Dictionary<RGBPixel, int>();
+
+            for (int i = 0; i < colorsList.Count; i++)
+                colorIndices.Add(colorsList[i], i);
+            
 
             // ToList because HashSets does not support indexing
             return distinctColors.ToList();
@@ -107,52 +118,7 @@ namespace ImageQuantization
         }
 
 
-        // Not in use, might need it later
-        private static double[,] createDistinctColorsGraphMatrix(List<RGBPixel> distinctColors)
-        {
-            int V = distinctColors.Count;
-            double[,] GraphMatrix = new double[V, V];
-
-            int offset = 0;
-
-            for (int i = 0; i < V; i++)
-            {
-                for (int j = offset; j < V; j++)
-                {
-                    double edgeCost = Distance(distinctColors[i], distinctColors[j]);
-
-                    GraphMatrix[i, j] = edgeCost;
-                    GraphMatrix[j, i] = edgeCost;
-                }
-
-                offset++;
-            }
-
-            return GraphMatrix;
-
-        }
-
-        // Not in use, might need it later
-        private static Dictionary<RGBPixel, int> GetDistinctColorsFreqArray(RGBPixel[,] ImageMatrix)
-        {
-            Dictionary<RGBPixel, int> colorsFrequencyArray = new Dictionary<RGBPixel, int>();
-
-            foreach (RGBPixel color in ImageMatrix)
-            {
-                if (!colorsFrequencyArray.ContainsKey(color))
-                {
-                    colorsFrequencyArray.Add(color, 1);
-                }
-                else
-                {
-                    colorsFrequencyArray[color]++;
-                }
-            }
-
-            return colorsFrequencyArray;
-        }
-
-        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, List<RGBPixel> ColorPallette)
+        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette, VertexSet set)
         {
             int rows = ImageOperations.GetHeight(ImageMatrix);
             int columns = ImageOperations.GetWidth(ImageMatrix);
@@ -163,36 +129,15 @@ namespace ImageQuantization
                 {
                     RGBPixel currentColor = ImageMatrix[i, j];
 
-                    // Can we do better?
-                    RGBPixel newColor = Search(ColorPallette, currentColor);
+                    int currentColorIndex = colorIndices[currentColor];
+                    int currentColorClusterIndex = set.FindSet(currentColorIndex);
+
+                    RGBPixel newColor = ColorPallette[currentColorClusterIndex];
                     ImageMatrix[i, j] = newColor;
+
                 }
             }
-            
-        }
 
-        private static RGBPixel Search(List<RGBPixel> colorPallette, RGBPixel currentColor)
-        {
-            int minIndex = 0;
-            double minDistance = 999999;
-
-            double distance = minDistance;
-            int indx = 0;
-
-            foreach (RGBPixel color in colorPallette)
-            {
-                distance = Distance(currentColor, color);
-                
-                if (distance <= minDistance)
-                {
-                    minDistance = distance;
-                    minIndex = indx;
-                }
-
-                indx++;
-            }
-
-            return colorPallette[minIndex];
         }
     }
 }

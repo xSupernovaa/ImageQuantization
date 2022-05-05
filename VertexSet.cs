@@ -71,26 +71,26 @@ namespace ImageQuantization
             return clusters;
         }
 
-        public static List<RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> cluster)
+        public static Dictionary<int ,RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> cluster)
         {
             // for every member of cluster sum all values and get the mean for the sum
-            List<RGBPixel> colorPallete = new List<RGBPixel>();
-            foreach (int key in cluster.Keys)
+            Dictionary<int, RGBPixel> colorPallete = new Dictionary<int, RGBPixel>();
+            foreach (int clusterIndex in cluster.Keys)
             {
                 int sumRed = 0, sumGreen = 0, sumBlue = 0;
-                foreach (RGBPixel pixel in cluster[key])
+                foreach (RGBPixel pixel in cluster[clusterIndex])
                 {
                     sumRed += pixel.red;
                     sumBlue += pixel.blue;
                     sumGreen += pixel.green;
 
                 }
-                byte red = Convert.ToByte(sumRed / cluster[key].Count);
-                byte green = Convert.ToByte(sumGreen / cluster[key].Count);
-                byte blue = Convert.ToByte(sumBlue / cluster[key].Count);
+                byte red = Convert.ToByte(sumRed / cluster[clusterIndex].Count);
+                byte green = Convert.ToByte(sumGreen / cluster[clusterIndex].Count);
+                byte blue = Convert.ToByte(sumBlue / cluster[clusterIndex].Count);
 
                 RGBPixel representitaveColor = new RGBPixel(red, green, blue);
-                colorPallete.Add(representitaveColor);
+                colorPallete.Add(clusterIndex, representitaveColor);
             }
             return colorPallete;
         }
