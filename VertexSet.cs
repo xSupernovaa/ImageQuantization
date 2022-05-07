@@ -68,31 +68,43 @@ namespace ImageQuantization
                 }
                 clusters[members[i]].Add(colorsList[i]);
             }
+
+            Console.WriteLine("finished GetClusters at " + (MainForm.stopWatch.Elapsed).ToString());
+
             return clusters;
         }
 
-        public static Dictionary<int ,RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> cluster)
+        public static Dictionary<int ,RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> clusters)
         {
             // for every member of cluster sum all values and get the mean for the sum
             Dictionary<int, RGBPixel> colorPallete = new Dictionary<int, RGBPixel>();
-            foreach (int clusterIndex in cluster.Keys)
+            foreach (int clusterIndex in clusters.Keys)
             {
                 int sumRed = 0, sumGreen = 0, sumBlue = 0;
-                foreach (RGBPixel pixel in cluster[clusterIndex])
+                int numberOfColorsInCluster = clusters[clusterIndex].Count;
+
+                foreach (RGBPixel pixel in clusters[clusterIndex])
                 {
                     sumRed += pixel.red;
                     sumBlue += pixel.blue;
                     sumGreen += pixel.green;
 
                 }
-                byte red = Convert.ToByte(sumRed / cluster[clusterIndex].Count);
-                byte green = Convert.ToByte(sumGreen / cluster[clusterIndex].Count);
-                byte blue = Convert.ToByte(sumBlue / cluster[clusterIndex].Count);
+                sumRed = (int)Math.Ceiling((double)sumRed / numberOfColorsInCluster);
+                sumGreen = (int)Math.Ceiling((double)sumGreen / numberOfColorsInCluster);
+                sumBlue = (int)Math.Ceiling((double)sumBlue / numberOfColorsInCluster);
+
+                byte red = Convert.ToByte(sumRed);
+                byte green = Convert.ToByte(sumGreen);
+                byte blue = Convert.ToByte(sumBlue);
 
                 RGBPixel representitaveColor = new RGBPixel(red, green, blue);
                 colorPallete.Add(clusterIndex, representitaveColor);
             }
+
+            Console.WriteLine("finished GetColorPallette at " + (MainForm.stopWatch.Elapsed).ToString());
             return colorPallete;
+
         }
     }
 }

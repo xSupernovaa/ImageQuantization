@@ -10,6 +10,14 @@ namespace ImageQuantization
         public int to;
         public double weight;
 
+
+        public Edge(int from, int to, double weight)
+        {
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
+        }
+
         public int CompareTo(object obj)
         {
             if (obj == null) return 1;
@@ -64,6 +72,8 @@ namespace ImageQuantization
             }
             set.sumMST = totalWeight;
             Console.WriteLine("total weight: " + totalWeight);
+
+            Console.WriteLine("finished RunKruskal at " + (MainForm.stopWatch.Elapsed).ToString());
 
             return set;
         }
