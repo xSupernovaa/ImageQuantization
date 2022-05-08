@@ -39,7 +39,7 @@ namespace ImageQuantization
             this.txtWidth = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtGaussSigma = new System.Windows.Forms.TextBox();
+            this.txtClusters = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -169,13 +169,13 @@ namespace ImageQuantization
             // 
             // txtGaussSigma
             // 
-            this.txtGaussSigma.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGaussSigma.Location = new System.Drawing.Point(934, 523);
-            this.txtGaussSigma.Margin = new System.Windows.Forms.Padding(4);
-            this.txtGaussSigma.Name = "txtGaussSigma";
-            this.txtGaussSigma.Size = new System.Drawing.Size(75, 27);
-            this.txtGaussSigma.TabIndex = 14;
-            this.txtGaussSigma.Text = "1";
+            this.txtClusters.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtClusters.Location = new System.Drawing.Point(934, 523);
+            this.txtClusters.Margin = new System.Windows.Forms.Padding(4);
+            this.txtClusters.Name = "txtGaussSigma";
+            this.txtClusters.Size = new System.Drawing.Size(75, 27);
+            this.txtClusters.TabIndex = 14;
+            this.txtClusters.Text = "1";
             // 
             // panel1
             // 
@@ -207,7 +207,7 @@ namespace ImageQuantization
             this.ClientSize = new System.Drawing.Size(1205, 615);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.txtGaussSigma);
+            this.Controls.Add(this.txtClusters);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtWidth);
@@ -244,7 +244,7 @@ namespace ImageQuantization
         private System.Windows.Forms.TextBox txtWidth;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtGaussSigma;
+        private System.Windows.Forms.TextBox txtClusters;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
     }

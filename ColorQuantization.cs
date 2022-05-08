@@ -9,15 +9,19 @@ namespace ImageQuantization
     class ColorQuantization
     {
         // this is bad for memory
-        private static Dictionary<RGBPixel, int> colorIndices;
+        private static Dictionary<int, int> colorIndices;
 
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
 
             List<RGBPixel> distinctColorsList = GetDistinctColorsList(ImageMatrix);
+
             List<Edge> distinctColorsGraph = createDistinctColorsGraphEdgeList(distinctColorsList);  
+
             VertexSet set = Kruskal.RunKruskal(distinctColorsList ,distinctColorsGraph, number_of_clusters);
+
             Dictionary<int, List<RGBPixel>> clusters = VertexSet.GetClusters(distinctColorsList, set.getMembers());
+
             Dictionary<int, RGBPixel> colorPallette = VertexSet.GetColorPallette(clusters);
 
             ReduceImageColors(ImageMatrix, colorPallette, set);
@@ -40,13 +44,14 @@ namespace ImageQuantization
 
             List<RGBPixel> colorsList = distinctColors.ToList();
 
-            colorIndices = new Dictionary<RGBPixel, int>(distinctColors.Count);
+            colorIndices = new Dictionary<int, int>(distinctColors.Count);
+         
 
             for (int i = 0; i < colorsList.Count; i++)
-                colorIndices.Add(colorsList[i], i);
+                colorIndices.Add(RGBPixel.Hash(colorsList[i]), i);
 
             Console.WriteLine("finished GetDistinctColorsList at " + (MainForm.stopWatch.Elapsed).ToString());
-            // ToList because HashSets does not support indexing
+
             return distinctColors.ToList();
         }
 
@@ -96,7 +101,7 @@ namespace ImageQuantization
                 {
                     RGBPixel currentColor = ImageMatrix[i, j];
 
-                    int currentColorIndex = colorIndices[currentColor];
+                    int currentColorIndex = colorIndices[RGBPixel.Hash(currentColor)];
                     int currentColorClusterIndex = set.FindSet(currentColorIndex);
 
                     RGBPixel newColor = ColorPallette[currentColorClusterIndex];

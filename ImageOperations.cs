@@ -23,7 +23,30 @@ namespace ImageQuantization
             this.green = green;
             this.blue = blue;
         }
+
+        public static int Hash(RGBPixel color)
+        {
+            int rgb = color.red;
+            rgb = (rgb << 8) + color.green;
+            rgb = (rgb << 8) + color.blue;
+
+            return rgb;
+        }
+
+        public static RGBPixel UnHash(int rgb)
+        {
+            byte red = (byte)((rgb >> 16) & 0xFF);
+            byte green = (byte)((rgb >> 8) & 0xFF);
+            byte blue = (byte)(rgb & 0xFF);
+
+            return new RGBPixel(red, green, blue);
+        }
+
     }
+
+
+
+
     public struct RGBPixelD
     {
         public double red, green, blue;

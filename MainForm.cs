@@ -33,7 +33,7 @@ namespace ImageQuantization
         public static Stopwatch stopWatch;
         private void btnGaussSmooth_Click(object sender, EventArgs e)
         {
-            int clusters = int.Parse(txtGaussSigma.Text);
+            int clusters = int.Parse(txtClusters.Text);
 
             RGBPixel[,] QuantizedImageMatrix = (RGBPixel[,])OriginalImageMatrix.Clone();
 

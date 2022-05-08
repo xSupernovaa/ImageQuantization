@@ -1,0 +1,14 @@
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Release\ImageQuantization.csprojAssemblyReference.cache
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Release\ImageQuantization.MainForm.resources
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Release\ImageQuantization.Properties.Resources.resources
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Release\ImageQuantization.csproj.GenerateResource.cache
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Release\ImageQuantization.csproj.CoreCompileInputs.cache
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Release\ImageQuantization.exe
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Release\ImageQuantization.pdb
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Release\ICSharpCode.SharpZipLib.dll
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Release\Lucene.Net.dll
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Release\Lucene.Net.pdb
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Release\Lucene.Net.xml
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Release\ImageQuantization.csproj.CopyComplete
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Release\ImageQuantization.exe
+C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Release\ImageQuantization.pdb
