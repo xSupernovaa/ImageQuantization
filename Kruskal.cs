@@ -39,9 +39,8 @@ namespace ImageQuantization
 
     internal class Kruskal
     {
-        public static VertexSet RunKruskal(List<RGBPixel> vertices, List<Edge> EdgeList, int number_of_clusters)
+        public static VertexSet RunKruskal(int verticesCount, List<Edge> EdgeList, int number_of_clusters)
         {
-            int verticesCount = vertices.Count;
             VertexSet set = new VertexSet(verticesCount);
             //initalize the sets (each vertex is in its own set)
             //O(V)

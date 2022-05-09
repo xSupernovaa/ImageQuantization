@@ -57,14 +57,14 @@ namespace ImageQuantization
             number_of_clusters--;
         }
 
-        public static Dictionary<int, List<RGBPixel>> GetClusters(List<RGBPixel> colorsList, int[] members)
+        public static Dictionary<int, List<int>> GetClusters(List<int> colorsList, int[] members)
         {
-            Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
+            Dictionary<int, List<int>> clusters = new Dictionary<int, List<int>>();
             for (int i = 0; i < members.Length; i++)
             {
                 if (!clusters.ContainsKey(members[i]))
                 {
-                    clusters[members[i]] = new List<RGBPixel>();
+                    clusters[members[i]] = new List<int>();
                 }
                 clusters[members[i]].Add(colorsList[i]);
             }
@@ -74,7 +74,7 @@ namespace ImageQuantization
             return clusters;
         }
 
-        public static Dictionary<int ,RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> clusters)
+        public static Dictionary<int ,RGBPixel> GetColorPallette(Dictionary<int, List<int>> clusters)
         {
             // for every member of cluster sum all values and get the mean for the sum
             Dictionary<int, RGBPixel> colorPallete = new Dictionary<int, RGBPixel>();
@@ -83,8 +83,9 @@ namespace ImageQuantization
                 int sumRed = 0, sumGreen = 0, sumBlue = 0;
                 int numberOfColorsInCluster = clusters[clusterIndex].Count;
 
-                foreach (RGBPixel pixel in clusters[clusterIndex])
+                foreach (int pixelHash in clusters[clusterIndex])
                 {
+                    RGBPixel pixel = RGBPixel.UnHash(pixelHash);
                     sumRed += pixel.red;
                     sumBlue += pixel.blue;
                     sumGreen += pixel.green;

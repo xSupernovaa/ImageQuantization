@@ -14,13 +14,13 @@ namespace ImageQuantization
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
 
-            List<RGBPixel> distinctColorsList = GetDistinctColorsList(ImageMatrix);
+            List<int> distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
-            List<Edge> distinctColorsGraph = createDistinctColorsGraphEdgeList(distinctColorsList);  
+            List<Edge> distinctColorsGraph = createDistinctColorsGraphEdgeList(distinctColorsList);
 
-            VertexSet set = Kruskal.RunKruskal(distinctColorsList ,distinctColorsGraph, number_of_clusters);
+            VertexSet set = Kruskal.RunKruskal(distinctColorsList.Count, distinctColorsGraph, number_of_clusters);
 
-            Dictionary<int, List<RGBPixel>> clusters = VertexSet.GetClusters(distinctColorsList, set.getMembers());
+            Dictionary<int, List<int>> clusters = VertexSet.GetClusters(distinctColorsList, set.getMembers());
 
             Dictionary<int, RGBPixel> colorPallette = VertexSet.GetColorPallette(clusters);
 
@@ -34,21 +34,21 @@ namespace ImageQuantization
         }
 
         
-        private static List<RGBPixel> GetDistinctColorsList(RGBPixel[,] ImageMatrix)
+        private static List<int> GetDistinctColorsList(RGBPixel[,] ImageMatrix)
         {
-            HashSet<RGBPixel> distinctColors = new HashSet<RGBPixel>();
+            HashSet<int> distinctColors = new HashSet<int>();
 
 
             foreach (RGBPixel pixel in ImageMatrix)
-                distinctColors.Add(pixel);
+                distinctColors.Add(RGBPixel.Hash(pixel));
 
-            List<RGBPixel> colorsList = distinctColors.ToList();
+            List<int> colorsList = distinctColors.ToList();
 
             colorIndices = new Dictionary<int, int>(distinctColors.Count);
          
 
             for (int i = 0; i < colorsList.Count; i++)
-                colorIndices.Add(RGBPixel.Hash(colorsList[i]), i);
+                colorIndices.Add(colorsList[i], i);
 
             Console.WriteLine("finished GetDistinctColorsList at " + (MainForm.stopWatch.Elapsed).ToString());
 
@@ -67,7 +67,7 @@ namespace ImageQuantization
             return distance;
         }
 
-        private static List<Edge> createDistinctColorsGraphEdgeList(List<RGBPixel> distinctColors)
+        private static List<Edge> createDistinctColorsGraphEdgeList(List<int> distinctColors)
         {
             int V = distinctColors.Count;
             int E = V * ((V - 1) / 2);
@@ -77,7 +77,7 @@ namespace ImageQuantization
             {
                 for (int j = i + 1; j < V; j++)
                 {
-                    double weight = Distance(distinctColors[i], distinctColors[j]);
+                    double weight = Distance(RGBPixel.UnHash(distinctColors[i]), RGBPixel.UnHash(distinctColors[j]));
                     Edge edge = new Edge(i, j, weight);
                     GraphEdgeList.Add(edge);
                 }
