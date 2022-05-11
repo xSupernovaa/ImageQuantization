@@ -16,24 +16,120 @@ namespace ImageQuantization
 
             List<int> distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
-            List<Edge> distinctColorsGraph = createDistinctColorsGraphEdgeList(distinctColorsList);
+            //double[,] graph = createDistinctColorsGraphMatrix(distinctColorsList);
 
-            VertexSet set = Kruskal.RunKruskal(distinctColorsList.Count, distinctColorsGraph, number_of_clusters);
+            PrimMST(distinctColorsList);
+            //List<Edge> distinctColorsGraph = createDistinctColorsGraphEdgeList(distinctColorsList);
 
-            Dictionary<int, List<int>> clusters = VertexSet.GetClusters(distinctColorsList, set.getMembers());
+            //VertexSet set = Kruskal.RunKruskal(distinctColorsList.Count, distinctColorsGraph, number_of_clusters);
 
-            Dictionary<int, RGBPixel> colorPallette = VertexSet.GetColorPallette(clusters);
+            //Dictionary<int, List<int>> clusters = VertexSet.GetClusters(distinctColorsList, set.getMembers());
 
-            ReduceImageColors(ImageMatrix, colorPallette, set);
+            //Dictionary<int, RGBPixel> colorPallette = VertexSet.GetColorPallette(clusters);
 
-            int countColorsBefore = distinctColorsList.Count;
-            int countColorsAfter = colorPallette.Count;
-            Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
+            //ReduceImageColors(ImageMatrix, colorPallette, set);
+
+            //int countColorsBefore = distinctColorsList.Count;
+            //int countColorsAfter = colorPallette.Count;
+            //Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
 
             return ImageMatrix;
         }
 
-        
+        private static void PrimMST(List<int> distinctColors)
+        {
+            int V = distinctColors.Count;
+            int[] parent = new int[V];
+            double[] key = new double[V];
+            bool[] mstSet = new bool[V];
+            //initialize all keys as infinite
+            for (int i = 0; i < V; i++)
+            {
+                key[i] = int.MaxValue;
+                mstSet[i] = false;
+            }
+            key[0] = 0;
+            parent[0] = -1;
+            for (int i = 0; i < V - 1; i++)
+            {
+                int u = minKey(key, mstSet);
+                mstSet[u] = true;
+                //relax all edges connected to u
+                for (int v = 0; v < V; v++)
+                {
+                    if (graph(distinctColors, u, v) != 0 
+                        && mstSet[v] == false 
+                        && graph(distinctColors, u, v) < key[v]
+                        )
+                    {
+                        parent[v] = u;
+                        key[v] = graph(distinctColors, u, v);
+                    }
+                }
+            }
+            double totalWeight = GetSumMST(distinctColors, parent);
+            Console.WriteLine("Total weight of MST is " + totalWeight);
+
+        }
+        private static double GetSumMST(List<int> distinctColors, int[] parent)
+        {
+            double sum = 0;
+            int V = distinctColors.Count;
+            for (int i = 1; i < V; i++)
+            {
+                sum += graph(distinctColors, i, parent[i]);
+            }
+            return sum;
+        }
+
+        private static int minKey(double[] key, bool[] mstSet)
+        {
+            double min = double.MaxValue;
+            int min_index = -1;
+            for (int v = 0; v < key.Length; v++)
+            {
+                if (mstSet[v] == false && key[v] < min)
+                {
+                    min = key[v];
+                    min_index = v;
+                }
+            }
+            return min_index;
+        }
+        private static double graph(List<int> distinctColors, int i, int j)
+        {
+            return Distance(
+                        RGBPixel.UnHash(distinctColors[i]),
+                        RGBPixel.UnHash(distinctColors[j])
+                        );
+        }
+            private static double[,] createDistinctColorsGraphMatrix(List<int> distinctColors)
+        {
+            int V = distinctColors.Count;
+            double[,] GraphMatrix = new double[V, V];
+
+            //int offset = 0;
+
+            for (int i = 0; i < V; i++)
+            {
+                for (int j = 0; j < V; j++)
+                {
+                    double edgeCost = Distance(
+                        RGBPixel.UnHash(distinctColors[i]),
+                        RGBPixel.UnHash(distinctColors[j])
+                        );
+
+                    GraphMatrix[i, j] = edgeCost;
+                    GraphMatrix[j, i] = edgeCost;
+                }
+
+                //offset++;
+            }
+
+            return GraphMatrix;
+
+        }
+
         private static List<int> GetDistinctColorsList(RGBPixel[,] ImageMatrix)
         {
             HashSet<int> distinctColors = new HashSet<int>();
@@ -45,7 +141,7 @@ namespace ImageQuantization
             List<int> colorsList = distinctColors.ToList();
 
             colorIndices = new Dictionary<int, int>(distinctColors.Count);
-         
+
 
             for (int i = 0; i < colorsList.Count; i++)
                 colorIndices.Add(colorsList[i], i);
