@@ -64,9 +64,9 @@ namespace ImageQuantization
             int V = distinctColors.Count;
             for (int i = 1; i < V; i++)
             {
-                int distance = ColorQuantization.GetWeight(distinctColors[i], distinctColors[parent[i]]);
-                sum += Math.Sqrt(distance);
-                Edge e = new Edge(parent[i], i, distance);
+                int weight = ColorQuantization.GetWeight(distinctColors[i], distinctColors[parent[i]]);
+                sum += ColorQuantization.GetDistance(weight);
+                Edge e = new Edge(parent[i], i, weight);
                 edges.Add(e);
             }
             totalWeight = sum;

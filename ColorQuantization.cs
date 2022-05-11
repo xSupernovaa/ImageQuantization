@@ -99,9 +99,9 @@ namespace ImageQuantization
             return differenceRed + differenceGreen + differenceBlue;
         }
         
-        public static double GetDistance(int a, int b)
+        public static double GetDistance(int weight)
         {
-            return Math.Sqrt(GetWeight(a, b));
+            return Math.Sqrt(weight);
         }
 
         private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette)
