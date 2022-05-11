@@ -15,7 +15,7 @@ namespace ImageQuantization
         {
             int V = distinctColors.Count;
             int[] parent = new int[V];
-            long[] key = new long[V];
+            int[] key = new int[V];
             bool[] mstSet = new bool[V];
             //initialize all keys as infinite
             for (int i = 0; i < V; i++)
@@ -150,9 +150,9 @@ namespace ImageQuantization
             throw new Exception("index not found in cluster");
         }
 
-        private static int GetMinimumKey(long[] key, bool[] mstSet)
+        private static int GetMinimumKey(int[] key, bool[] mstSet)
         {
-            double min = double.MaxValue;
+            int min = int.MaxValue;
             int min_index = -1;
             for (int v = 0; v < key.Length; v++)
             {
