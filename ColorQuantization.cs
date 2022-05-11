@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static ImageQuantization.MST;
 
 namespace ImageQuantization
 {
@@ -16,18 +17,14 @@ namespace ImageQuantization
 
             List<int> distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
-            //double[,] graph = createDistinctColorsGraphMatrix(distinctColorsList);
+            Prim(distinctColorsList, number_of_clusters);
 
-            PrimMST(distinctColorsList);
-            //List<Edge> distinctColorsGraph = createDistinctColorsGraphEdgeList(distinctColorsList);
+            //this fucntion is probably not true
+            //List<List<int>> clusters = GetClusterdNodes(distinctColorsList, number_of_clusters);
 
-            //VertexSet set = Kruskal.RunKruskal(distinctColorsList.Count, distinctColorsGraph, number_of_clusters);
+            //Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
 
-            //Dictionary<int, List<int>> clusters = VertexSet.GetClusters(distinctColorsList, set.getMembers());
-
-            //Dictionary<int, RGBPixel> colorPallette = VertexSet.GetColorPallette(clusters);
-
-            //ReduceImageColors(ImageMatrix, colorPallette, set);
+            //ReduceImageColors(ImageMatrix, colorPallette, clusters);
 
             //int countColorsBefore = distinctColorsList.Count;
             //int countColorsAfter = colorPallette.Count;
@@ -36,97 +33,38 @@ namespace ImageQuantization
             return ImageMatrix;
         }
 
-        private static void PrimMST(List<int> distinctColors)
+
+
+        public static Dictionary<int, RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> clusters)
         {
-            int V = distinctColors.Count;
-            int[] parent = new int[V];
-            double[] key = new double[V];
-            bool[] mstSet = new bool[V];
-            //initialize all keys as infinite
-            for (int i = 0; i < V; i++)
+            // for every member of cluster sum all values and get the mean for the sum
+            Dictionary<int, RGBPixel> colorPallete = new Dictionary<int, RGBPixel>();
+            foreach (int clusterIndex in clusters.Keys)
             {
-                key[i] = int.MaxValue;
-                mstSet[i] = false;
-            }
-            key[0] = 0;
-            parent[0] = -1;
-            for (int i = 0; i < V - 1; i++)
-            {
-                int u = minKey(key, mstSet);
-                mstSet[u] = true;
-                //relax all edges connected to u
-                for (int v = 0; v < V; v++)
+                int sumRed = 0, sumGreen = 0, sumBlue = 0;
+                int numberOfColorsInCluster = clusters[clusterIndex].Count;
+
+                foreach (RGBPixel pixel in clusters[clusterIndex])
                 {
-                    if (graph(distinctColors, u, v) != 0 
-                        && mstSet[v] == false 
-                        && graph(distinctColors, u, v) < key[v]
-                        )
-                    {
-                        parent[v] = u;
-                        key[v] = graph(distinctColors, u, v);
-                    }
+                    sumRed += pixel.red;
+                    sumBlue += pixel.blue;
+                    sumGreen += pixel.green;
+
                 }
-            }
-            double totalWeight = GetSumMST(distinctColors, parent);
-            Console.WriteLine("Total weight of MST is " + totalWeight);
+                sumRed = (int)Math.Ceiling((double)sumRed / numberOfColorsInCluster);
+                sumGreen = (int)Math.Ceiling((double)sumGreen / numberOfColorsInCluster);
+                sumBlue = (int)Math.Ceiling((double)sumBlue / numberOfColorsInCluster);
 
-        }
-        private static double GetSumMST(List<int> distinctColors, int[] parent)
-        {
-            double sum = 0;
-            int V = distinctColors.Count;
-            for (int i = 1; i < V; i++)
-            {
-                sum += graph(distinctColors, i, parent[i]);
-            }
-            return sum;
-        }
+                byte red = Convert.ToByte(sumRed);
+                byte green = Convert.ToByte(sumGreen);
+                byte blue = Convert.ToByte(sumBlue);
 
-        private static int minKey(double[] key, bool[] mstSet)
-        {
-            double min = double.MaxValue;
-            int min_index = -1;
-            for (int v = 0; v < key.Length; v++)
-            {
-                if (mstSet[v] == false && key[v] < min)
-                {
-                    min = key[v];
-                    min_index = v;
-                }
-            }
-            return min_index;
-        }
-        private static double graph(List<int> distinctColors, int i, int j)
-        {
-            return Distance(
-                        RGBPixel.UnHash(distinctColors[i]),
-                        RGBPixel.UnHash(distinctColors[j])
-                        );
-        }
-            private static double[,] createDistinctColorsGraphMatrix(List<int> distinctColors)
-        {
-            int V = distinctColors.Count;
-            double[,] GraphMatrix = new double[V, V];
-
-            //int offset = 0;
-
-            for (int i = 0; i < V; i++)
-            {
-                for (int j = 0; j < V; j++)
-                {
-                    double edgeCost = Distance(
-                        RGBPixel.UnHash(distinctColors[i]),
-                        RGBPixel.UnHash(distinctColors[j])
-                        );
-
-                    GraphMatrix[i, j] = edgeCost;
-                    GraphMatrix[j, i] = edgeCost;
-                }
-
-                //offset++;
+                RGBPixel representitaveColor = new RGBPixel(red, green, blue);
+                colorPallete.Add(clusterIndex, representitaveColor);
             }
 
-            return GraphMatrix;
+            Console.WriteLine("finished GetColorPallette at " + (MainForm.stopWatch.Elapsed).ToString());
+            return colorPallete;
 
         }
 
@@ -147,46 +85,27 @@ namespace ImageQuantization
                 colorIndices.Add(colorsList[i], i);
 
             Console.WriteLine("finished GetDistinctColorsList at " + (MainForm.stopWatch.Elapsed).ToString());
-
+            Console.WriteLine("Number of distinct colors is " + distinctColors.Count);
             return distinctColors.ToList();
         }
 
-
-        private static double Distance(RGBPixel a, RGBPixel b)
+        public static int GetWeight(int a, int b)
         {
-            double differenceRed = Math.Pow(a.red - b.red, 2);
-            double differenceGreen = Math.Pow(a.green - b.green, 2);
-            double differenceBlue = Math.Pow(a.blue - b.blue, 2);
-
-            double distance = Math.Sqrt(differenceRed + differenceGreen + differenceBlue);
-
-            return distance;
+            RGBPixel aPixel = RGBPixel.UnHash(a);
+            RGBPixel bPixel = RGBPixel.UnHash(b);
+            int differenceRed = (aPixel.red - bPixel.red) * (aPixel.red - bPixel.red);
+            int differenceGreen = (aPixel.green - bPixel.green) * (aPixel.green - bPixel.green);
+            int differenceBlue = (aPixel.blue - bPixel.blue) * (aPixel.blue - bPixel.blue);
+            return differenceRed + differenceGreen + differenceBlue;
+        }
+        
+        public static double GetDistance(int a, int b)
+        {
+            return Math.Sqrt(GetWeight(a, b));
         }
 
-        private static List<Edge> createDistinctColorsGraphEdgeList(List<int> distinctColors)
-        {
-            int V = distinctColors.Count;
-            int E = V * ((V - 1) / 2);
-            List<Edge> GraphEdgeList = new List<Edge>(E);
-
-            for (int i = 0; i < V; i++)
-            {
-                for (int j = i + 1; j < V; j++)
-                {
-                    double weight = Distance(RGBPixel.UnHash(distinctColors[i]), RGBPixel.UnHash(distinctColors[j]));
-                    Edge edge = new Edge(i, j, weight);
-                    GraphEdgeList.Add(edge);
-                }
-            }
-
-            Console.WriteLine("finished createDistinctColorsGraphEdgeList at " + (MainForm.stopWatch.Elapsed).ToString());
-
-            return GraphEdgeList;
-
-        }
-
-
-        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette, VertexSet set)
+        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette)
+        //this function previously took VertexSet as a parameter which is not used anymore
         {
             int rows = ImageOperations.GetHeight(ImageMatrix);
             int columns = ImageOperations.GetWidth(ImageMatrix);
@@ -198,7 +117,7 @@ namespace ImageQuantization
                     RGBPixel currentColor = ImageMatrix[i, j];
 
                     int currentColorIndex = colorIndices[RGBPixel.Hash(currentColor)];
-                    int currentColorClusterIndex = set.FindSet(currentColorIndex);
+                    int currentColorClusterIndex = -1;//WAS: set.FindSet(currentColorIndex);
 
                     RGBPixel newColor = ColorPallette[currentColorClusterIndex];
                     ImageMatrix[i, j] = newColor;
