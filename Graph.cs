@@ -1,58 +1,69 @@
-﻿// C# program to print BFS traversal
-// from a given source vertex.
-// BFS(int s) traverses vertices
-// reachable from s.
-using ImageQuantization;
-using System;
+﻿using ImageQuantization;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-// This class represents a directed
-// graph using adjacency list
-// representation
 class Graph
 {
-
-    // No. of vertices    
-    private int _V;
-
-    //Adjacency Lists
-    LinkedList<int>[] _adj;
-    bool[] visited;
-
-    Dictionary<int, List<RGBPixel>> clusters;
-    public Graph(int V)
+    static Dictionary<int, List<int>> graph =
+            new Dictionary<int, List<int>>();
+    public static void PopulateGraph()
     {
-        _adj = new LinkedList<int>[V];
-        for (int i = 0; i < _adj.Length; i++)
-        {
-            _adj[i] = new LinkedList<int>();
-        }
-        _V = V;
-        visited = new bool[V];
-        for (int i = 0; i < V; i++)
-            visited[i] = false;
-        clusters = new Dictionary<int, List<RGBPixel>>();
-    }
-
-    public void PopulateAdjList()
-    {
-        int num = 0;
         foreach (Edge edge in MST.edges)
         {
-            num++;
-            AddEdge(edge.from, edge.to);
+            addEdge(edge.from, edge.to);
         }
-        Console.WriteLine("Number of edges ADDED TO ADJLIST: " + num);
+    }
+    public static void addEdge(int a, int b)
+    {
+        if (graph.ContainsKey(a))
+        {
+            List<int> l = graph[a];
+            l.Add(b);
+            if (graph.ContainsKey(a))
+                graph[a] = l;
+            else
+                graph.Add(a, l);
+        }
+        else
+        {
+            List<int> l = new List<int>();
+            l.Add(b);
+            graph.Add(a, l);
+        }
     }
 
-    // Function to add an edge into the graph
-    public void AddEdge(int v, int w)
+    public static List<RGBPixel> bfshelp(int s, List<bool> visited)
     {
-        _adj[v].AddLast(w);
-        _adj[w].AddLast(v);
 
+        List<RGBPixel> cluster = new List<RGBPixel>();
+
+        List<int> q = new List<int>();
+
+        q.Add(s);
+        visited.RemoveAt(s);
+        visited.Insert(s, true);
+
+        while (q.Count != 0)
+        {
+            int f = q[0];
+            q.RemoveAt(0);
+            cluster.Add(IToPixel(f));
+
+            if (graph.ContainsKey(f))
+            {
+
+                foreach (int iN in graph[f])
+                {
+                    int n = iN;
+                    if (!visited[n])
+                    {
+                        visited.RemoveAt(n);
+                        visited.Insert(n, true);
+                        q.Add(n);
+                    }
+                }
+            }
+        }
+        return cluster;
     }
 
     private static RGBPixel IToPixel(int index)
@@ -60,70 +71,25 @@ class Graph
         return RGBPixel.UnHash(ColorQuantization.distinctColorsList[index]);
     }
 
-    public Dictionary<int, List<RGBPixel>> GetClusters()
+    public static Dictionary<int, List<RGBPixel>> bfs(int vertex)
     {
+        List<bool> visited = new List<bool>();
+        Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
+        for (int i = 0; i < vertex; i++)
+        {
+            visited.Insert(i, false);
+        }
+        int index = 0;
+        for (int i = 0; i < vertex; i++)
+        {
+            if (!visited[i])
+            {
+                var cluster = bfshelp(i, visited);
+                index++;
+                clusters.Add(index, cluster);
+            }
+        }
         return clusters;
     }
 
-    // Prints BFS traversal from a given source s
-    public void BFS(List<int> roots)
-    {
-        int index = -1;
-        foreach (int root in roots)
-        {
-            index++;
-            List<RGBPixel> cluster = new List<RGBPixel>();
-            // Create a queue for BFS
-            LinkedList<int> queue = new LinkedList<int>();
-            //bool[] visited = new bool[_V];
-            // Mark the current node as
-            // visited and enqueue it
-            //if (visited[root])
-            //    continue;
-                //throw new Exception("Root already visited");
-            visited[root] = true;
-            queue.AddLast(root);
-
-            while (queue.Any())
-            {
-
-                // Dequeue a vertex from queue
-                // and print it
-                int currRoot = queue.First();
-
-                cluster.Add(IToPixel(currRoot));
-
-                queue.RemoveFirst();
-
-                // Get all adjacent vertices of the
-                // dequeued vertex s. If a adjacent
-                // has not been visited, then mark it
-                // visited and enqueue it
-                LinkedList<int> list = _adj[root];
-
-                foreach (var val in list)
-                {
-                    if (!visited[val])
-                    {
-                        visited[val] = true;
-                        queue.AddLast(val);
-                    }
-                }
-            }
-            clusters.Add(index, cluster);
-        }
-        int nodesVisited = 0;
-        int nodesNotVisited = 0;
-        for (int i = 0; i < visited.Length; i++)
-        {
-            if (!visited[i])
-                nodesNotVisited++;
-            else
-                nodesVisited++;
-        }
-
-        Console.WriteLine("All nodes VISITED " + nodesVisited);
-        Console.WriteLine("NODES NOT VISITED " + nodesNotVisited);
-        Console.WriteLine("BOTH " + (nodesVisited + nodesNotVisited));
-    }
 }
