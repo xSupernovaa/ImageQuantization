@@ -11,7 +11,7 @@ namespace ImageQuantization
         //MST SUM
         public static double totalWeight;
 
-        public static Dictionary<int, List<int>> PrimWithClustering(List<int> distinctColors, int num_of_clusters)
+        public static void Prim(List<int> distinctColors, int num_of_clusters)
         {
             int V = distinctColors.Count;
             int[] parent = new int[V];
@@ -43,65 +43,19 @@ namespace ImageQuantization
                         )
                     {
                         parent[v] = u;
-                        
                         key[v] = distance;
                     }
                 }
             }
             
-            Dictionary<int, List<int>> children = BuildChildren(parent, V);
-            
             ConstructMSTEdges(distinctColors, parent);
 
-            ClusterEdges(num_of_clusters, children);
+            ClusterEdges(num_of_clusters);
             
-            //printMST(parent, V, children, distinctColors);
             Console.WriteLine("Total weight of MST is " + totalWeight);
 
             Console.WriteLine("finished Prim at " + (MainForm.stopWatch.Elapsed).ToString());
-            return children;
-        }
 
-        private static Dictionary<int, List<int>> BuildChildren(int[] parent, int V)
-        {
-            Dictionary<int, List<int>> children = new Dictionary<int, List<int>>();
-
-            for (int i = 0; i < V; i++)
-            {
-                //Console.WriteLine("parent of " + i.ToString() + " is " + parent[i].ToString());
-                if (children.ContainsKey(parent[i]))
-                {
-                    children[parent[i]].Add(i);
-                }
-                else
-                {
-                    children.Add(parent[i], new List<int>());
-                    children[parent[i]].Add(i);
-                }
-            }
-            return children;
-        }
-        static void printMST(int[] parent, int V, Dictionary<int, List<int>> children, List<int> distinctColors)
-        {
-            for (int i = 0; i < V; i++)
-            {
-                Console.WriteLine("parent of " + i.ToString() + " is " + parent[i].ToString());
-            }
-            Console.WriteLine();
-
-            foreach (var list in children)
-            {
-                if (list.Key == -1)
-                    continue;
-                RGBPixel p = RGBPixel.UnHash(distinctColors[list.Key]);
-                Console.WriteLine("children of " + list.Key.ToString() + " " + p.red + ", " + p.green + ", " + p.blue + " are ");
-                foreach (var child in list.Value)
-                {
-                    RGBPixel x = RGBPixel.UnHash(distinctColors[child]);
-
-                    Console.WriteLine(child.ToString()+ " "+ x.red + ", " + x.green + ", " + x.blue);
-                }
-            }
         }
         public static List<Edge> ConstructMSTEdges(List<int> distinctColors, int[] parent)
         {
@@ -120,10 +74,8 @@ namespace ImageQuantization
             Console.WriteLine("number of edges before clustering: = " + edges.Count);
             return edges;
         }
-        public static List<int> ClusterEdges(int num_of_clusters, Dictionary<int, List<int>> children)
+        public static List<Edge> ClusterEdges(int num_of_clusters)
         {
-            List<int> roots = new List<int>();
-            roots.Add(0);
             if (edges == null)
             {
                 throw new Exception("MST is not constructed");
@@ -131,13 +83,10 @@ namespace ImageQuantization
             edges.Sort();
             for (int i = 0; i < num_of_clusters - 1; i++)
             {
-                int lastIndex = edges.Count - 1;
-                children[edges[lastIndex].from].Remove(edges[lastIndex].to);
-                roots.Add(edges[lastIndex].to);
-                edges.RemoveAt(lastIndex);
+                edges.RemoveAt(edges.Count - 1);
             }
             Console.WriteLine("number of edges after clustering: = " + edges.Count);
-            return roots;
+            return edges;
         }
 
         //Probably not useful only for refrence

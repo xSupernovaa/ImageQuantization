@@ -11,83 +11,29 @@ namespace ImageQuantization
     {
         // this is bad for memory
         private static Dictionary<int, int> colorIndices;
-        public static int noise = 0;
+
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
 
             List<int> distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
-            Dictionary<int, List<int>> children = PrimWithClustering(distinctColorsList, number_of_clusters);
+            Prim(distinctColorsList, number_of_clusters);
 
-            Dictionary<int, List<RGBPixel>> clusters = GetClusters(children, distinctColorsList);
+            //this fucntion is probably not true
+            //List<List<int>> clusters = GetClusterdNodes(distinctColorsList, number_of_clusters);
 
-            Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
+            //Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
 
-            ReduceImageColors(ImageMatrix, colorPallette, distinctColorsList, clusters);
+            //ReduceImageColors(ImageMatrix, colorPallette, clusters);
 
-            int countColorsBefore = distinctColorsList.Count;
-            int countColorsAfter = colorPallette.Count;
-            Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
-            Console.WriteLine("Noise: " + noise.ToString());
+            //int countColorsBefore = distinctColorsList.Count;
+            //int countColorsAfter = colorPallette.Count;
+            //Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
+
             return ImageMatrix;
         }
 
-        private static Dictionary<int, List<RGBPixel>> GetClusters(Dictionary<int, List<int>> children, List<int> distinctColors)
-        {
-            Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
-            int index = -1;
-            foreach (var list in children)
-            {
-                if (list.Key == -1)
-                    continue;
-                index++;
 
-                List<RGBPixel> cluster = new List<RGBPixel>();
-
-                RGBPixel p = RGBPixel.UnHash(distinctColors[list.Key]);
-                cluster.Add(p);
-
-                foreach (var child in list.Value)
-                {
-                    RGBPixel x = RGBPixel.UnHash(distinctColors[child]);
-                    cluster.Add(x);
-                }
-                clusters.Add(index, cluster);
-            }
-
-            return clusters;
-        }
-
-
-        public static bool IsRGBPixelEqual(RGBPixel a, RGBPixel b)
-        {
-            return a.red == b.red && a.green == b.green && a.blue == b.blue;
-        }
-
-        public static int FindClusterIndex(int currColorIndex, List<int> distinctColors, Dictionary<int, List<RGBPixel>> clusters)
-        {
-            RGBPixel currColor = RGBPixel.UnHash(distinctColors[currColorIndex]);
-            foreach (var cluster in clusters)
-            {
-                if (cluster.Value.Contains(currColor))
-                    return cluster.Key;
-            }
-            noise++;
-            return 0;
-            throw new Exception("Could not find cluster index");
-        }
-
-        public static void PrintClusters(Dictionary<int, List<RGBPixel>> clusters)
-        {
-            foreach (var cluster in clusters)
-            {
-                Console.WriteLine("cluster " + cluster.Key.ToString());
-                foreach (var p in cluster.Value)
-                {
-                    Console.WriteLine(p.red + ", " + p.green + ", " + p.blue);
-                }
-            }
-        }
 
         public static Dictionary<int, RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> clusters)
         {
@@ -152,13 +98,13 @@ namespace ImageQuantization
             int differenceBlue = (aPixel.blue - bPixel.blue) * (aPixel.blue - bPixel.blue);
             return differenceRed + differenceGreen + differenceBlue;
         }
-
+        
         public static double GetDistance(int weight)
         {
             return Math.Sqrt(weight);
         }
 
-        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette, List<int> distinctColors, Dictionary<int, List<RGBPixel>> clusters)
+        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette)
         //this function previously took VertexSet as a parameter which is not used anymore
         {
             int rows = ImageOperations.GetHeight(ImageMatrix);
@@ -171,7 +117,7 @@ namespace ImageQuantization
                     RGBPixel currentColor = ImageMatrix[i, j];
 
                     int currentColorIndex = colorIndices[RGBPixel.Hash(currentColor)];
-                    int currentColorClusterIndex = FindClusterIndex(currentColorIndex, distinctColors, clusters);//WAS: set.FindSet(currentColorIndex);
+                    int currentColorClusterIndex = -1;//WAS: set.FindSet(currentColorIndex);
 
                     RGBPixel newColor = ColorPallette[currentColorClusterIndex];
                     ImageMatrix[i, j] = newColor;
