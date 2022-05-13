@@ -11,7 +11,7 @@ namespace ImageQuantization
         //MST SUM
         public static double totalWeight;
 
-        public static Dictionary<int, List<int>> PrimWithClustering(List<int> distinctColors, int num_of_clusters)
+        public static int[] Prim(List<int> distinctColors)
         {
             int V = distinctColors.Count;
             int[] parent = new int[V];
@@ -48,21 +48,15 @@ namespace ImageQuantization
                     }
                 }
             }
-            
-            Dictionary<int, List<int>> children = BuildChildren(parent, V);
-            
-            ConstructMSTEdges(distinctColors, parent);
 
-            ClusterEdges(num_of_clusters, children);
-            
             //printMST(parent, V, children, distinctColors);
             Console.WriteLine("Total weight of MST is " + totalWeight);
 
             Console.WriteLine("finished Prim at " + (MainForm.stopWatch.Elapsed).ToString());
-            return children;
+            return parent;
         }
-
-        private static Dictionary<int, List<int>> BuildChildren(int[] parent, int V)
+        
+        public static Dictionary<int, List<int>> BuildChildren(int[] parent, int V)
         {
             Dictionary<int, List<int>> children = new Dictionary<int, List<int>>();
 

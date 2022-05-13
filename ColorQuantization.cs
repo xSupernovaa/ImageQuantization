@@ -17,7 +17,13 @@ namespace ImageQuantization
 
             List<int> distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
-            Dictionary<int, List<int>> children = PrimWithClustering(distinctColorsList, number_of_clusters);
+            int[] parent = Prim(distinctColorsList);
+
+            Dictionary<int, List<int>> children = BuildChildren(parent, distinctColorsList.Count);
+
+            List<Edge> edges = ConstructMSTEdges(distinctColorsList, parent);
+
+            ClusterEdges(number_of_clusters, children);
 
             Dictionary<int, List<RGBPixel>> clusters = GetClusters(children, distinctColorsList);
 
@@ -25,9 +31,9 @@ namespace ImageQuantization
 
             ReduceImageColors(ImageMatrix, colorPallette, distinctColorsList, clusters);
 
-            int countColorsBefore = distinctColorsList.Count;
-            int countColorsAfter = colorPallette.Count;
-            Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
+            //int countColorsBefore = distinctColorsList.Count;
+            //int countColorsAfter = colorPallette.Count;
+            //Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
             Console.WriteLine("Noise: " + noise.ToString());
             return ImageMatrix;
         }
