@@ -114,7 +114,7 @@ namespace ImageQuantization
             Console.WriteLine("number of edges before clustering: = " + edges.Count);
             return edges;
         }
-        public static List<int> ClusterEdges(int num_of_clusters, Dictionary<int, List<int>> children)
+        public static List<int> ClusterEdges(int num_of_clusters)
         {
             List<int> roots = new List<int>();
             roots.Add(0);
@@ -126,7 +126,7 @@ namespace ImageQuantization
             for (int i = 0; i < num_of_clusters - 1; i++)
             {
                 int lastIndex = edges.Count - 1;
-                children[edges[lastIndex].from].Remove(edges[lastIndex].to);
+                //children[edges[lastIndex].from].Remove(edges[lastIndex].to);
                 roots.Add(edges[lastIndex].to);
                 edges.RemoveAt(lastIndex);
             }

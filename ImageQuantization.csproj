@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Edge.cs" />
+    <Compile Include="Graph.cs" />
     <Compile Include="MST.cs" />
     <Compile Include="ColorQuantization.cs" />
     <Compile Include="MainForm.cs">

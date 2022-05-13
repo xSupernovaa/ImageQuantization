@@ -11,59 +11,142 @@ namespace ImageQuantization
     {
         // this is bad for memory
         private static Dictionary<int, int> colorIndices;
+        public static List<int> distinctColorsList;
+
+
         public static int noise = 0;
+
+        public static bool[] visited;        
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
 
-            List<int> distinctColorsList = GetDistinctColorsList(ImageMatrix);
+            distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
             int[] parent = Prim(distinctColorsList);
-
-            Dictionary<int, List<int>> children = BuildChildren(parent, distinctColorsList.Count);
-
+            
             List<Edge> edges = ConstructMSTEdges(distinctColorsList, parent);
+            
+            List<int> roots = ClusterEdges(number_of_clusters);
 
-            ClusterEdges(number_of_clusters, children);
+            Graph graph = new Graph(distinctColorsList.Count);
+            graph.PopulateAdjList();
 
-            Dictionary<int, List<RGBPixel>> clusters = GetClusters(children, distinctColorsList);
+            graph.BFS(roots);
+            Dictionary<int, List<RGBPixel>> clusters = graph.GetClusters();
+            //Dictionary<int, List<int>> children = BuildChildren(parent, distinctColorsList.Count);
+
+
+
+            //Dictionary<int, List<RGBPixel>> clusters = GetClusters(children, distinctColorsList);
+
+            //visited = new bool[distinctColorsList.Count];
+            //for (int i = 0; i < distinctColorsList.Count; i++)
+            //    visited[i] = false;
+
+            //Dictionary<int, List<RGBPixel>> clusters = GetClusters(children, distinctColorsList, roots);
+            Console.WriteLine("number of CLUSTERS: " + clusters.Count);
 
             Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
 
             ReduceImageColors(ImageMatrix, colorPallette, distinctColorsList, clusters);
 
-            //int countColorsBefore = distinctColorsList.Count;
-            //int countColorsAfter = colorPallette.Count;
-            //Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
+            int countColorsBefore = distinctColorsList.Count;
+            int countColorsAfter = colorPallette.Count;
+            Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
             Console.WriteLine("Noise: " + noise.ToString());
             return ImageMatrix;
         }
+        
+        public static List<RGBPixel> BFS(int root, int V, List<int> childrenOfRoot, List<int> distinctColors)
+        {
 
-        private static Dictionary<int, List<RGBPixel>> GetClusters(Dictionary<int, List<int>> children, List<int> distinctColors)
+            // Mark all the vertices as not
+            // visited(By default set as false)
+            
+
+            // Create a queue for BFS
+            LinkedList<int> queue = new LinkedList<int>();
+
+            // Mark the current node as
+            // visited and enqueue it
+            visited[root] = true;
+            queue.AddLast(root);
+
+            List<RGBPixel> cluster = new List<RGBPixel>();
+
+            while (queue.Any())
+            {
+
+                // Dequeue a vertex from queue
+                // and print it
+                root = queue.First();
+                if (!visited[root])
+                    break;
+                //Console.Write(root + " ");
+                cluster.Add(RGBPixel.UnHash(distinctColors[root]));
+                queue.RemoveFirst();
+
+                // Get all adjacent vertices of the
+                // dequeued vertex s. If a adjacent
+                // has not been visited, then mark it
+                // visited and enqueue it
+                LinkedList<int> list = new LinkedList<int>(childrenOfRoot);
+
+                foreach (var val in list)
+                {
+                    if (!visited[val])
+                    {
+                        visited[val] = true;
+                        queue.AddLast(val);
+                    }
+                }
+            }
+            return cluster;
+        }
+
+        private static Dictionary<int, List<RGBPixel>> GetClusters(Dictionary<int, List<int>> children, List<int> distinctColors, List<int> roots)
         {
             Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
             int index = -1;
-            foreach (var list in children)
+            foreach (int root in roots)
             {
-                if (list.Key == -1)
-                    continue;
                 index++;
+                List<RGBPixel> cluster = BFS(root, distinctColors.Count, children[root], distinctColors);
+                if (cluster.Count > 0)
+                    clusters.Add(index, cluster);
 
-                List<RGBPixel> cluster = new List<RGBPixel>();
 
-                RGBPixel p = RGBPixel.UnHash(distinctColors[list.Key]);
-                cluster.Add(p);
-
-                foreach (var child in list.Value)
-                {
-                    RGBPixel x = RGBPixel.UnHash(distinctColors[child]);
-                    cluster.Add(x);
-                }
-                clusters.Add(index, cluster);
             }
 
             return clusters;
         }
 
+
+        //private static Dictionary<int, List<RGBPixel>> GetClusters(Dictionary<int, List<int>> children, List<int> distinctColors)
+        //{
+        //    Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
+        //    int index = -1;
+        //    foreach (var list in children)
+        //    {
+        //        if (list.Key == -1)
+        //            continue;
+        //        index++;
+
+        //        List<RGBPixel> cluster = new List<RGBPixel>();
+
+        //        RGBPixel p = RGBPixel.UnHash(distinctColors[list.Key]);
+        //        cluster.Add(p);
+
+        //        foreach (var child in list.Value)
+        //        {
+        //            RGBPixel x = RGBPixel.UnHash(distinctColors[child]);
+        //            cluster.Add(x);
+        //        }
+        //        clusters.Add(index, cluster);
+        //    }
+
+        //    return clusters;
+        //}
 
         public static bool IsRGBPixelEqual(RGBPixel a, RGBPixel b)
         {
