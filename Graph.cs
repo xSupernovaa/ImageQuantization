@@ -38,16 +38,20 @@ class Graph
 
     public void PopulateAdjList()
     {
+        int num = 0;
         foreach (Edge edge in MST.edges)
         {
+            num++;
             AddEdge(edge.from, edge.to);
         }
+        Console.WriteLine("Number of edges ADDED TO ADJLIST: " + num);
     }
 
     // Function to add an edge into the graph
     public void AddEdge(int v, int w)
     {
         _adj[v].AddLast(w);
+        _adj[w].AddLast(v);
 
     }
 
@@ -71,11 +75,12 @@ class Graph
             List<RGBPixel> cluster = new List<RGBPixel>();
             // Create a queue for BFS
             LinkedList<int> queue = new LinkedList<int>();
-
+            //bool[] visited = new bool[_V];
             // Mark the current node as
             // visited and enqueue it
-            if (visited[root])
-                throw new Exception("Root already visited");
+            //if (visited[root])
+            //    continue;
+                //throw new Exception("Root already visited");
             visited[root] = true;
             queue.AddLast(root);
 
@@ -107,6 +112,18 @@ class Graph
             }
             clusters.Add(index, cluster);
         }
+        int nodesVisited = 0;
+        int nodesNotVisited = 0;
+        for (int i = 0; i < visited.Length; i++)
+        {
+            if (!visited[i])
+                nodesNotVisited++;
+            else
+                nodesVisited++;
+        }
 
+        Console.WriteLine("All nodes VISITED " + nodesVisited);
+        Console.WriteLine("NODES NOT VISITED " + nodesNotVisited);
+        Console.WriteLine("BOTH " + (nodesVisited + nodesNotVisited));
     }
 }

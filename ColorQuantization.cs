@@ -14,25 +14,29 @@ namespace ImageQuantization
         public static List<int> distinctColorsList;
 
 
-        public static int noise = 0;
+        public static uint noise = 0;
 
-        public static bool[] visited;        
+        public static bool[] visited;
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
 
             distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
             int[] parent = Prim(distinctColorsList);
-            
+
             List<Edge> edges = ConstructMSTEdges(distinctColorsList, parent);
-            
+
+            //Graph graph = new Graph(distinctColorsList.Count);
+            //graph.PopulateAdjList();
             List<int> roots = ClusterEdges(number_of_clusters);
 
-            Graph graph = new Graph(distinctColorsList.Count);
-            graph.PopulateAdjList();
+            Graph2.PopulateGraph();
 
-            graph.BFS(roots);
-            Dictionary<int, List<RGBPixel>> clusters = graph.GetClusters();
+
+            Dictionary<int, List<RGBPixel>> clusters = Graph2.bfs(distinctColorsList.Count);
+            //graph.BFS(roots);
+            //Dictionary<int, List<RGBPixel>> clusters = graph.GetClusters();
+            //printNumOfColorsInClusters(clusters);
             //Dictionary<int, List<int>> children = BuildChildren(parent, distinctColorsList.Count);
 
 
@@ -45,10 +49,12 @@ namespace ImageQuantization
 
             //Dictionary<int, List<RGBPixel>> clusters = GetClusters(children, distinctColorsList, roots);
             Console.WriteLine("number of CLUSTERS: " + clusters.Count);
+            Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
+
 
             Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
 
-            ReduceImageColors(ImageMatrix, colorPallette, distinctColorsList, clusters);
+            ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
 
             int countColorsBefore = distinctColorsList.Count;
             int countColorsAfter = colorPallette.Count;
@@ -56,13 +62,58 @@ namespace ImageQuantization
             Console.WriteLine("Noise: " + noise.ToString());
             return ImageMatrix;
         }
-        
+
+        private static Dictionary<int, short> PopulateClusterIndicies(Dictionary<int, List<RGBPixel>> clusters)
+        {
+            Console.WriteLine("START PopulateClusterIndicies at: " + (MainForm.stopWatch.Elapsed).ToString());
+            Dictionary<int, short> clusterIndices = new Dictionary<int, short>();
+            foreach (var cluster in clusters)
+            {
+                short index = (short)cluster.Key;
+
+                foreach (RGBPixel pixel in cluster.Value)
+                {
+                    int pixelIndex = distinctColorsList.IndexOf(RGBPixel.Hash(pixel));
+                    if (!clusterIndices.ContainsKey(pixelIndex))
+                    {
+                        clusterIndices.Add(pixelIndex, index);
+                    }
+                    else
+                    {
+                        clusterIndices.Add(pixelIndex, index);
+                    }
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+            Console.WriteLine("finished PopulateClusterIndicies at " + (MainForm.stopWatch.Elapsed).ToString());
+            return clusterIndices;
+        }
+
+        private static void printNumOfColorsInClusters(Dictionary<int, List<RGBPixel>> clusters)
+        {
+            int count = 0;
+            foreach (var cluster in clusters)
+            {
+                count += cluster.Value.Count;
+            }
+            Console.WriteLine("number of COLORS in CLUSTERS: " + count);
+        }
+
         public static List<RGBPixel> BFS(int root, int V, List<int> childrenOfRoot, List<int> distinctColors)
         {
 
             // Mark all the vertices as not
             // visited(By default set as false)
-            
+
 
             // Create a queue for BFS
             LinkedList<int> queue = new LinkedList<int>();
@@ -158,8 +209,11 @@ namespace ImageQuantization
             RGBPixel currColor = RGBPixel.UnHash(distinctColors[currColorIndex]);
             foreach (var cluster in clusters)
             {
-                if (cluster.Value.Contains(currColor))
-                    return cluster.Key;
+                foreach (var color in cluster.Value)
+                {
+                    if (IsRGBPixelEqual(currColor, color))
+                        return cluster.Key;
+                }
             }
             noise++;
             return 0;
@@ -229,7 +283,7 @@ namespace ImageQuantization
 
             Console.WriteLine("finished GetDistinctColorsList at " + (MainForm.stopWatch.Elapsed).ToString());
             Console.WriteLine("Number of distinct colors is " + distinctColors.Count);
-            return distinctColors.ToList();
+            return colorsList;
         }
 
         public static int GetWeight(int a, int b)
@@ -247,7 +301,7 @@ namespace ImageQuantization
             return Math.Sqrt(weight);
         }
 
-        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette, List<int> distinctColors, Dictionary<int, List<RGBPixel>> clusters)
+        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette, Dictionary<int, short> clusterIndices)
         //this function previously took VertexSet as a parameter which is not used anymore
         {
             int rows = ImageOperations.GetHeight(ImageMatrix);
@@ -260,7 +314,7 @@ namespace ImageQuantization
                     RGBPixel currentColor = ImageMatrix[i, j];
 
                     int currentColorIndex = colorIndices[RGBPixel.Hash(currentColor)];
-                    int currentColorClusterIndex = FindClusterIndex(currentColorIndex, distinctColors, clusters);//WAS: set.FindSet(currentColorIndex);
+                    int currentColorClusterIndex = clusterIndices[currentColorIndex];//WAS: set.FindSet(currentColorIndex);
 
                     RGBPixel newColor = ColorPallette[currentColorClusterIndex];
                     ImageMatrix[i, j] = newColor;

@@ -50,7 +50,7 @@ namespace ImageQuantization
             }
 
             //printMST(parent, V, children, distinctColors);
-            Console.WriteLine("Total weight of MST is " + totalWeight);
+            
 
             Console.WriteLine("finished Prim at " + (MainForm.stopWatch.Elapsed).ToString());
             return parent;
@@ -109,9 +109,9 @@ namespace ImageQuantization
                 Edge e = new Edge(parent[i], i, weight);
                 edges.Add(e);
             }
-            totalWeight = sum;
+            MST.totalWeight = sum;
             MST.edges = edges;
-            Console.WriteLine("number of edges before clustering: = " + edges.Count);
+            Console.WriteLine("Total weight of MST is " + totalWeight);
             return edges;
         }
         public static List<int> ClusterEdges(int num_of_clusters)
@@ -123,6 +123,7 @@ namespace ImageQuantization
                 throw new Exception("MST is not constructed");
             }
             edges.Sort();
+            int numOfEdgesBefore = edges.Count;
             for (int i = 0; i < num_of_clusters - 1; i++)
             {
                 int lastIndex = edges.Count - 1;
@@ -130,7 +131,7 @@ namespace ImageQuantization
                 roots.Add(edges[lastIndex].to);
                 edges.RemoveAt(lastIndex);
             }
-            Console.WriteLine("number of edges after clustering: = " + edges.Count);
+            Console.WriteLine("number of edges removed = " + (numOfEdgesBefore - edges.Count).ToString());
             return roots;
         }
 
