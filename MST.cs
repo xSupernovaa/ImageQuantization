@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImageQuantization
 {
@@ -7,7 +8,7 @@ namespace ImageQuantization
     {
         public static List<Edge> edges;
         //MST SUM
-        public static double totalWeight;
+        public static double sum;
 
         public static int[] Prim(List<int> distinctColors)
         {
@@ -50,22 +51,20 @@ namespace ImageQuantization
             return parent;
         }
 
-        public static void ConstructMSTEdges(List<int> distinctColors, int[] parent)
+        public static void ConstructEdges(List<int> distinctColors, int[] parent)
         {
-            List<Edge> edges = new List<Edge>();
-            double sum = 0;
+            edges = new List<Edge>();
             int V = distinctColors.Count;
             for (int i = 1; i < V; i++)
             {
                 int weight = ColorQuantization.GetWeight(distinctColors[i], distinctColors[parent[i]]);
                 sum += ColorQuantization.GetDistance(weight);
-                Edge e = new Edge(parent[i], i, weight);
+                Edge e = new Edge(parent[i], i, weight, ColorQuantization.GetDistance(weight));
                 edges.Add(e);
             }
-            MST.totalWeight = sum;
-            MST.edges = edges;
-            Console.WriteLine("Total weight of MST is " + totalWeight);
+            Console.WriteLine("Total weight of MST is " + MST.sum);
         }
+
         public static List<Edge> ClusterEdges(int num_of_clusters)
         {
             if (edges == null)
@@ -82,6 +81,27 @@ namespace ImageQuantization
             Console.WriteLine("number of edges removed = " + (numOfEdgesBefore - edges.Count).ToString());
             return edges;
         }
+
+        public static int GetNumberOfClusters()
+        {
+            int edgesCount = edges.Count;
+
+            double[] weights = new double[edgesCount];
+
+            for (int i = 0; i < edges.Count; i++)
+            {
+                weights[i] = edges[i].weightAfterSR;
+            }
+
+            int numberOfClusters = Stats.MSDR(weights);
+
+            return numberOfClusters;
+        }
+
+
+
+
+
 
         private static int GetMinimumKey(int[] key, bool[] mstSet)
         {

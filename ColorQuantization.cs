@@ -14,30 +14,36 @@ namespace ImageQuantization
 
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
+            
 
             distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
             int[] parent = Prim(distinctColorsList);
 
-            ConstructMSTEdges(distinctColorsList, parent);
+            ConstructEdges(distinctColorsList, parent);
 
-            List<Edge> edges = ClusterEdges(number_of_clusters);
+            int n = MST.GetNumberOfClusters();
 
-            Graph.PopulateGraph();
 
-            Dictionary<int, List<RGBPixel>> clusters = Graph.bfs(distinctColorsList.Count);
+            Console.WriteLine("NUMBER OF CLUSTERS IS " + n);
+
+            //List<Edge> edges = ClusterEdges(number_of_clusters);
+
+            //Forest graph = new Forest(MST.edges);
+
+            //Dictionary<int, List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
             
-            Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
+            //Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
 
-            Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
+            //Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
 
-            ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
+            //ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
 
-            int countColorsBefore = distinctColorsList.Count;
-            int countColorsAfter = colorPallette.Count;
-            Console.WriteLine("number of CLUSTERS: " + clusters.Count);
-            Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
-            Console.WriteLine("Noise: " + noise.ToString());
+            //int countColorsBefore = distinctColorsList.Count;
+            //int countColorsAfter = colorPallette.Count;
+            //Console.WriteLine("number of CLUSTERS: " + clusters.Count);
+            //Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
+            //Console.WriteLine("Noise: " + noise.ToString());
             return ImageMatrix;
         }
 
@@ -159,5 +165,6 @@ namespace ImageQuantization
             Console.WriteLine("finished ReduceImageColors at " + (MainForm.stopWatch.Elapsed).ToString());
 
         }
+
     }
 }

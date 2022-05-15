@@ -51,8 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Stats.cs" />
     <Compile Include="Edge.cs" />
-    <Compile Include="Graph.cs" />
+    <Compile Include="Forest.cs" />
     <Compile Include="MST.cs" />
     <Compile Include="ColorQuantization.cs" />
     <Compile Include="MainForm.cs">

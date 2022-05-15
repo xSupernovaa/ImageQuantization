@@ -1,37 +1,38 @@
 ﻿using ImageQuantization;
 using System.Collections.Generic;
 
-class Graph
+class Forest
 {
-    static Dictionary<int, List<int>> graph =
+    static Dictionary<int, List<int>> Trees =
             new Dictionary<int, List<int>>();
-    public static void PopulateGraph()
+    public Forest(List<Edge> Edges)
     {
-        foreach (Edge edge in MST.edges)
+        foreach (Edge edge in Edges)
         {
             addEdge(edge.from, edge.to);
         }
     }
-    public static void addEdge(int a, int b)
+
+    private void addEdge(int a, int b)
     {
-        if (graph.ContainsKey(a))
+        if (Trees.ContainsKey(a))
         {
-            List<int> l = graph[a];
+            List<int> l = Trees[a];
             l.Add(b);
-            if (graph.ContainsKey(a))
-                graph[a] = l;
+            if (Trees.ContainsKey(a))
+                Trees[a] = l;
             else
-                graph.Add(a, l);
+                Trees.Add(a, l);
         }
         else
         {
             List<int> l = new List<int>();
             l.Add(b);
-            graph.Add(a, l);
+            Trees.Add(a, l);
         }
     }
 
-    public static List<RGBPixel> bfshelp(int s, List<bool> visited)
+    public static List<RGBPixel> BFS_HELP(int s, List<bool> visited)
     {
 
         List<RGBPixel> cluster = new List<RGBPixel>();
@@ -48,10 +49,10 @@ class Graph
             q.RemoveAt(0);
             cluster.Add(IToPixel(f));
 
-            if (graph.ContainsKey(f))
+            if (Trees.ContainsKey(f))
             {
 
-                foreach (int iN in graph[f])
+                foreach (int iN in Trees[f])
                 {
                     int n = iN;
                     if (!visited[n])
@@ -71,20 +72,22 @@ class Graph
         return RGBPixel.UnHash(ColorQuantization.distinctColorsList[index]);
     }
 
-    public static Dictionary<int, List<RGBPixel>> bfs(int vertex)
+    public static Dictionary<int, List<RGBPixel>> BFS(int V)
     {
         List<bool> visited = new List<bool>();
         Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
-        for (int i = 0; i < vertex; i++)
+
+        for (int i = 0; i < V; i++)
         {
             visited.Insert(i, false);
         }
+
         int index = 0;
-        for (int i = 0; i < vertex; i++)
+        for (int i = 0; i < V; i++)
         {
             if (!visited[i])
             {
-                var cluster = bfshelp(i, visited);
+                var cluster = BFS_HELP(i, visited);
                 index++;
                 clusters.Add(index, cluster);
             }
