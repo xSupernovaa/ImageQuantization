@@ -10,6 +10,7 @@ class Graph
         foreach (Edge edge in MST.edges)
         {
             addEdge(edge.from, edge.to);
+            addEdge(edge.to, edge.from);
         }
     }
     public static void addEdge(int a, int b)
