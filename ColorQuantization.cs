@@ -25,25 +25,24 @@ namespace ImageQuantization
             int n = MST.GetNumberOfClusters();
 
 
-            Console.WriteLine("NUMBER OF CLUSTERS IS " + n);
+           // Console.WriteLine("NUMBER OF CLUSTERS IS " + n);
 
-            //List<Edge> edges = ClusterEdges(number_of_clusters);
+            List<Edge> edges = ClusterEdges(number_of_clusters);
 
-            //Forest graph = new Forest(MST.edges);
+            Forest graph = new Forest(MST.edges);
 
-            //Dictionary<int, List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
-            
-            //Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
+            Dictionary<int, List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
+            Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
 
-            //Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
+            Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
 
-            //ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
+            ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
 
-            //int countColorsBefore = distinctColorsList.Count;
-            //int countColorsAfter = colorPallette.Count;
-            //Console.WriteLine("number of CLUSTERS: " + clusters.Count);
-            //Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
-            //Console.WriteLine("Noise: " + noise.ToString());
+            int countColorsBefore = distinctColorsList.Count;
+            int countColorsAfter = colorPallette.Count;
+            Console.WriteLine("number of CLUSTERS: " + clusters.Count);
+            Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
+            Console.WriteLine("Noise: " + noise.ToString());
             return ImageMatrix;
         }
 
@@ -89,7 +88,7 @@ namespace ImageQuantization
                     sumBlue += pixel.blue;
                     sumGreen += pixel.green;
 
-                }
+                }//O()
                 sumRed = (int)Math.Ceiling((double)sumRed / numberOfColorsInCluster);
                 sumGreen = (int)Math.Ceiling((double)sumGreen / numberOfColorsInCluster);
                 sumBlue = (int)Math.Ceiling((double)sumBlue / numberOfColorsInCluster);
@@ -104,7 +103,7 @@ namespace ImageQuantization
 
             Console.WriteLine("finished GetColorPallette at " + (MainForm.stopWatch.Elapsed).ToString());
             return colorPallete;
-
+            //total O(D)exact
         }
 
         private static List<int> GetDistinctColorsList(RGBPixel[,] ImageMatrix)
@@ -165,6 +164,7 @@ namespace ImageQuantization
             Console.WriteLine("finished ReduceImageColors at " + (MainForm.stopWatch.Elapsed).ToString());
 
         }
+       
 
     }
 }
