@@ -94,67 +94,6 @@ class Forest
         }
         return clusters;
     }
-    //BOUNSE NUM2
-         public static double mean=0;
-         public static long StandardDeviation(List<Edge> edges)
-        {
-            long stdDv = 0;
-            double sum = 0;//after take squareroot
-            long sumAllQ = 0;//after take square root and ^2
-
-        
-           for (int i = 0; i < edges.Count; i++)
-             {
-           
-                  sum +=edges[i].weightAfterSR ;
-                   sumAllQ +=edges[i].weightBeforeSR;
-              }
-            mean = sum / (long)edges.Count;
-        //Standard deviation
-           stdDv = (long)System.Math.Sqrt((sumAllQ - (sum * sum) / edges.Count) * (1.0 / (edges.Count - 1)));
-
-             return stdDv;
-             }
-         public static List<Edge> EdgesOfclustersB(int num_of_clusters)
-          {
-            long stDV=StandardDeviation(edges);
-            List<Edge> lastdelete=new List<Edge>();
-            int Q=1;
-            for (int i = 0; i < edges.Count; i++)
-            {
-                if (edges[i].weightAfterSR > mean + stDV)
-                {
-                 Q++;
-                    lastdelete.Add(edges[i]);
-                  edges.RemoveAt(i);
-                }
-            }
-            if (Q > num_of_clusters)
-            {
-                edges.Sort();
-                 for (int i = 0; i < num_of_clusters ; i++)
-                 {
-                int lastIndex = edges.Count-1 ;
-                edges.RemoveAt(lastIndex);
-                 }
-
-            }
-          else if (Q < num_of_clusters)
-            {
-             
-                for(int i = 0; i < num_of_clusters - Q; i++)
-                {
-                    if (lastdelete.Count!=0)
-                    { 
-                     edges.Add(lastdelete[i]);}
-                   
-                    
-                }
-            }
-            
-        return edges;
-        
-        }
-   
+    
 
 }
