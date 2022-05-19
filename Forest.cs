@@ -10,6 +10,7 @@ class Forest
         foreach (Edge edge in Edges)
         {
             addEdge(edge.from, edge.to);
+            addEdge(edge.to, edge.from);
         }
     }
 

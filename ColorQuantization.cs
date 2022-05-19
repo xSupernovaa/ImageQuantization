@@ -22,28 +22,24 @@ namespace ImageQuantization
 
             ConstructEdges(distinctColorsList, parent);
 
-            int n = MST.GetNumberOfClusters();
 
+            List<Edge> edges = ClusterEdges(number_of_clusters);
 
-            Console.WriteLine("NUMBER OF CLUSTERS IS " + n);
+            Forest forest = new Forest(MST.edges);
 
-            //List<Edge> edges = ClusterEdges(number_of_clusters);
+            Dictionary<int, List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
 
-            //Forest graph = new Forest(MST.edges);
+            Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
 
-            //Dictionary<int, List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
-            
-            //Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
+            Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
 
-            //Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
+            ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
 
-            //ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
-
-            //int countColorsBefore = distinctColorsList.Count;
-            //int countColorsAfter = colorPallette.Count;
-            //Console.WriteLine("number of CLUSTERS: " + clusters.Count);
-            //Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
-            //Console.WriteLine("Noise: " + noise.ToString());
+            int countColorsBefore = distinctColorsList.Count;
+            int countColorsAfter = colorPallette.Count;
+            Console.WriteLine("number of CLUSTERS: " + clusters.Count);
+            Console.WriteLine("Reduced number of colors in image from " + countColorsBefore + " to " + countColorsAfter);
+            Console.WriteLine("Noise: " + noise.ToString());
             return ImageMatrix;
         }
 
