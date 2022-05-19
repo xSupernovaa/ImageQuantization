@@ -117,7 +117,6 @@ namespace ImageQuantization
             }
             return min_index;
         }
-
         //BOUNSE NUM2
          public static double mean=0;
          public static long StandardDeviation(List<Edge> edges)
@@ -126,7 +125,7 @@ namespace ImageQuantization
             double sum = 0;//after take squareroot
             long sumAllQ = 0;//after take square root and ^2
 
-        
+          
            for (int i = 0; i < edges.Count; i++)
              {
            
@@ -145,40 +144,31 @@ namespace ImageQuantization
             List<Edge> lastdelete=new List<Edge>();
             int Q=1;
             for (int i = 0; i < edges.Count; i++)
-            {
+            { 
                 if (edges[i].weightAfterSR > mean + stDV)
                 {
-                 Q++;
-                    lastdelete.Add(edges[i]);
+                    Q++;
+                   lastdelete.Add(edges[i]);
                   edges.RemoveAt(i);
                 }
-            }
-            if (Q > num_of_clusters)
+             }
+            if (edges.Count > num_of_clusters-1)
             {
                 edges.Sort();
-                 for (int i = 0; i < num_of_clusters ; i++)
+                 for (int i = 0; i < num_of_clusters -1; i++)
                  {
                 int lastIndex = edges.Count-1 ;
                 edges.RemoveAt(lastIndex);
                  }
 
             }
-          else if (Q < num_of_clusters)
-            {
-             
-                for(int i = 0; i < num_of_clusters - Q; i++)
-                {
-                    if (lastdelete.Count!=0)
-                    { 
-                     edges.Add(lastdelete[i]);}
-                   
-                    
-                }
-            }
-            
+        
         return edges;
         
         }
+   
+
+       
    
         
     }

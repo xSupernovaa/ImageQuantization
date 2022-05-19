@@ -161,6 +161,30 @@ namespace ImageQuantization
             Console.WriteLine("finished ReduceImageColors at " + (MainForm.stopWatch.Elapsed).ToString());
 
         }
+        public static  Dictionary<int, List<RGBPixel>> Truecluster( Dictionary<int, List<RGBPixel>> cluster,int num_of_clusters)
+        {
+            if (cluster.Count < num_of_clusters)
+            {
+                Dictionary<int, RGBPixel>ColorPallette=GetColorPallette(cluster);
+                List<RGBPixel> colorsrep=new List<RGBPixel>();
+                foreach(var color in ColorPallette.Values)
+                {
+                    colorsrep.Add(color);
+                }
+                
+                for(int i = 0; i < num_of_clusters - cluster.Count; i++)
+                {
+                    int lastkey=Forest.getlaskey();
+                    lastkey++;
+                      cluster.Add(lastkey,colorsrep);
+                    
+                   
+                }
+
+            }
+            return cluster;
+        }
+
        
 
     }
