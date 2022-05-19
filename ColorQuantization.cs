@@ -85,7 +85,7 @@ namespace ImageQuantization
                     sumBlue += pixel.blue;
                     sumGreen += pixel.green;
 
-                }
+                }//O()
                 sumRed = (int)Math.Ceiling((double)sumRed / numberOfColorsInCluster);
                 sumGreen = (int)Math.Ceiling((double)sumGreen / numberOfColorsInCluster);
                 sumBlue = (int)Math.Ceiling((double)sumBlue / numberOfColorsInCluster);
@@ -100,7 +100,7 @@ namespace ImageQuantization
 
             Console.WriteLine("finished GetColorPallette at " + (MainForm.stopWatch.Elapsed).ToString());
             return colorPallete;
-
+            //total O(D)exact
         }
 
         private static List<int> GetDistinctColorsList(RGBPixel[,] ImageMatrix)
@@ -161,6 +161,7 @@ namespace ImageQuantization
             Console.WriteLine("finished ReduceImageColors at " + (MainForm.stopWatch.Elapsed).ToString());
 
         }
+       
 
     }
 }

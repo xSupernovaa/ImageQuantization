@@ -59,3 +59,14 @@ C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantizati
 C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\Lucene.Net.pdb
 C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\Lucene.Net.xml
 C:\Users\Bassel\Desktop\Study\Algorithms\[2] Image Quantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.CopyComplete
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.csproj.AssemblyReference.cache
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.MainForm.resources
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.Properties.Resources.resources
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.csproj.GenerateResource.cache
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.exe
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.pdb
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\ImageQuantization.exe
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\ImageQuantization.pdb
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\Lucene.Net.xml
+C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.csproj.CopyComplete
