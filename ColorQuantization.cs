@@ -7,8 +7,6 @@ namespace ImageQuantization
 {
     class ColorQuantization
     {
-        // this is bad for memory
-        private static Dictionary<int, int> colorIndices;
         public static List<int> distinctColorsList;
         public static uint noise = 0;
 
@@ -27,11 +25,11 @@ namespace ImageQuantization
 
             Forest forest = new Forest(MST.edges);
 
-            Dictionary<int, List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
+            List<List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
 
             Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
 
-            Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
+            List<RGBPixel> colorPallette = GetColorPallette(clusters);
 
             ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
 
@@ -43,38 +41,28 @@ namespace ImageQuantization
             return ImageMatrix;
         }
 
-        private static Dictionary<int, short> PopulateClusterIndicies(Dictionary<int, List<RGBPixel>> clusters)
+        private static Dictionary<int, short> PopulateClusterIndicies(List<List<RGBPixel>> clusters)
         {
             Console.WriteLine("START PopulateClusterIndicies at: " + (MainForm.stopWatch.Elapsed).ToString());
             Dictionary<int, short> clusterIndices = new Dictionary<int, short>();
-            foreach (var cluster in clusters)
+            for(int i = 0; i< clusters.Count; i++)
             {
-                short index = (short)cluster.Key;
-
-                foreach (RGBPixel pixel in cluster.Value)
+                var cluster = clusters[i];
+                for (int j = 0; j < cluster.Count; j++)
                 {
-                    int pixelIndex = distinctColorsList.IndexOf(RGBPixel.Hash(pixel));
-                    if (!clusterIndices.ContainsKey(pixelIndex))
-                    {
-                        clusterIndices.Add(pixelIndex, index);
-                    }
-                    else
-                    {
-                        clusterIndices.Add(pixelIndex, index);
-                    }
+                    clusterIndices.Add(RGBPixel.Hash(cluster[j]), (short)i);
                 }
-
             }
 
             Console.WriteLine("finished PopulateClusterIndicies at " + (MainForm.stopWatch.Elapsed).ToString());
             return clusterIndices;
         }
 
-        public static Dictionary<int, RGBPixel> GetColorPallette(Dictionary<int, List<RGBPixel>> clusters)
+        public static List<RGBPixel> GetColorPallette(List<List<RGBPixel>> clusters)
         {
             // for every member of cluster sum all values and get the mean for the sum
-            Dictionary<int, RGBPixel> colorPallete = new Dictionary<int, RGBPixel>();
-            foreach (int clusterIndex in clusters.Keys)
+            List<RGBPixel> colorPallete = new List<RGBPixel>();
+            for (int clusterIndex = 0; clusterIndex < clusters.Count; clusterIndex++)
             {
                 int sumRed = 0, sumGreen = 0, sumBlue = 0;
                 int numberOfColorsInCluster = clusters[clusterIndex].Count;
@@ -95,7 +83,7 @@ namespace ImageQuantization
                 byte blue = Convert.ToByte(sumBlue);
 
                 RGBPixel representitaveColor = new RGBPixel(red, green, blue);
-                colorPallete.Add(clusterIndex, representitaveColor);
+                colorPallete.Add(representitaveColor);
             }
 
             return colorPallete;
@@ -106,17 +94,10 @@ namespace ImageQuantization
         {
             HashSet<int> distinctColors = new HashSet<int>();
 
-
             foreach (RGBPixel pixel in ImageMatrix)
                 distinctColors.Add(RGBPixel.Hash(pixel));
 
             List<int> colorsList = distinctColors.ToList();
-
-            colorIndices = new Dictionary<int, int>(distinctColors.Count);
-
-
-            for (int i = 0; i < colorsList.Count; i++)
-                colorIndices.Add(colorsList[i], i);
 
             Console.WriteLine("finished GetDistinctColorsList at " + (MainForm.stopWatch.Elapsed).ToString());
             Console.WriteLine("Number of distinct colors is " + distinctColors.Count);
@@ -138,7 +119,7 @@ namespace ImageQuantization
             return Math.Sqrt(weight);
         }
 
-        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, Dictionary<int, RGBPixel> ColorPallette, Dictionary<int, short> clusterIndices)
+        private static void ReduceImageColors(RGBPixel[,] ImageMatrix, List<RGBPixel> ColorPallette, Dictionary<int, short> clusterIndices)
         {
             int rows = ImageOperations.GetHeight(ImageMatrix);
             int columns = ImageOperations.GetWidth(ImageMatrix);
@@ -149,8 +130,7 @@ namespace ImageQuantization
                 {
                     RGBPixel currentColor = ImageMatrix[i, j];
 
-                    int currentColorIndex = colorIndices[RGBPixel.Hash(currentColor)];
-                    int currentColorClusterIndex = clusterIndices[currentColorIndex];
+                    int currentColorClusterIndex = clusterIndices[RGBPixel.Hash(currentColor)];
 
                     RGBPixel newColor = ColorPallette[currentColorClusterIndex];
                     ImageMatrix[i, j] = newColor;
@@ -160,38 +140,37 @@ namespace ImageQuantization
             Console.WriteLine("finished ReduceImageColors at " + (MainForm.stopWatch.Elapsed).ToString());
 
         }
-        public static  Dictionary<int, List<RGBPixel>> Truecluster( Dictionary<int, List<RGBPixel>> cluster,int num_of_clusters)
-        {
-            if (cluster.Count < num_of_clusters)
-            {
-                Dictionary<int, RGBPixel>ColorPallette=GetColorPallette(cluster);
-                List<RGBPixel> colorsrep=new List<RGBPixel>();
-                foreach(var color in ColorPallette.Values)
-                {
-                    colorsrep.Add(color);
-                }
-                
-                for(int i = 0; i < num_of_clusters - cluster.Count; i++)
-                {
-                    int lastkey=Forest.getlaskey();
-                    lastkey++;
-                      cluster.Add(lastkey,colorsrep);
-                    
-                   
-                }
+        //public static Dictionary<int, List<RGBPixel>> Truecluster(List<List<RGBPixel>> cluster, int num_of_clusters)
+        //{
+        //    if (cluster.Count < num_of_clusters)
+        //    {
+        //        List<RGBPixel> ColorPallette = GetColorPallette(cluster);
+        //        List<RGBPixel> colorsrep = new List<RGBPixel>();
+        //        foreach (var color in ColorPallette.Values)
+        //        {
+        //            colorsrep.Add(color);
+        //        }
 
-            }
-            return cluster;
-        }
+        //        for (int i = 0; i < num_of_clusters - cluster.Count; i++)
+        //        {
+        //            int lastkey = Forest.getlaskey();
+        //            lastkey++;
+        //            cluster.Add(lastkey, colorsrep);
+
+
+        //        }
+
+        //    }
+        //    return cluster;
+        //}
 
         internal static void reset()
         {
-            colorIndices = null;
+            //colorIndices = null;
             distinctColorsList = null;
             noise = 0;
             MST.edges = null;
             MST.sum = 0;
         }
-
     }
 }
