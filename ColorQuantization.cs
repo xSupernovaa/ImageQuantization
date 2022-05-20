@@ -184,7 +184,14 @@ namespace ImageQuantization
             return cluster;
         }
 
-       
+        internal static void reset()
+        {
+            colorIndices = null;
+            distinctColorsList = null;
+            noise = 0;
+            MST.edges = null;
+            MST.sum = 0;
+        }
 
     }
 }

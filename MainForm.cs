@@ -55,7 +55,7 @@ namespace ImageQuantization
             {
                 pictureBox2.Image = null;
                 pictureBox2.Update();
-                //ColorQuantization.reset();
+                ColorQuantization.reset();
                 MessageBox.Show("Cleared!");
             }
 
