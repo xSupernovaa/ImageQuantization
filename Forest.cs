@@ -73,27 +73,25 @@ class Forest
         return RGBPixel.UnHash(ColorQuantization.distinctColorsList[index]);
     }
     static int lastkey;
-    public static Dictionary<int, List<RGBPixel>> BFS(int V)
+    public static List<List<RGBPixel>> BFS(int V)
     {
         List<bool> visited = new List<bool>();
-        Dictionary<int, List<RGBPixel>> clusters = new Dictionary<int, List<RGBPixel>>();
+        List<List<RGBPixel>> clusters = new List<List<RGBPixel>>();
 
         for (int i = 0; i < V; i++)
         {
             visited.Insert(i, false);
         }
 
-        int index = 0;
         for (int i = 0; i < V; i++)
         {
             if (!visited[i])
             {
                 var cluster = BFS_HELP(i, visited);
-                index++;
-                clusters.Add(index, cluster);
+                clusters.Add(cluster);
             }
         }
-        lastkey=index;
+        lastkey=clusters.Count-1;
         return clusters;
     }
     public static int getlaskey()
