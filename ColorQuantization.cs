@@ -22,16 +22,13 @@ namespace ImageQuantization
 
             ConstructEdges(distinctColorsList, parent);
 
-            int n = MST.GetNumberOfClusters();
-
-
-           // Console.WriteLine("NUMBER OF CLUSTERS IS " + n);
 
             List<Edge> edges = ClusterEdges(number_of_clusters);
 
-            Forest graph = new Forest(MST.edges);
+            Forest forest = new Forest(MST.edges);
 
             Dictionary<int, List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
+
             Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
 
             Dictionary<int, RGBPixel> colorPallette = GetColorPallette(clusters);
@@ -88,7 +85,7 @@ namespace ImageQuantization
                     sumBlue += pixel.blue;
                     sumGreen += pixel.green;
 
-                }//O()
+                }
                 sumRed = (int)Math.Ceiling((double)sumRed / numberOfColorsInCluster);
                 sumGreen = (int)Math.Ceiling((double)sumGreen / numberOfColorsInCluster);
                 sumBlue = (int)Math.Ceiling((double)sumBlue / numberOfColorsInCluster);
@@ -101,9 +98,8 @@ namespace ImageQuantization
                 colorPallete.Add(clusterIndex, representitaveColor);
             }
 
-            Console.WriteLine("finished GetColorPallette at " + (MainForm.stopWatch.Elapsed).ToString());
             return colorPallete;
-            //total O(D)exact
+
         }
 
         private static List<int> GetDistinctColorsList(RGBPixel[,] ImageMatrix)
@@ -164,6 +160,30 @@ namespace ImageQuantization
             Console.WriteLine("finished ReduceImageColors at " + (MainForm.stopWatch.Elapsed).ToString());
 
         }
+        public static  Dictionary<int, List<RGBPixel>> Truecluster( Dictionary<int, List<RGBPixel>> cluster,int num_of_clusters)
+        {
+            if (cluster.Count < num_of_clusters)
+            {
+                Dictionary<int, RGBPixel>ColorPallette=GetColorPallette(cluster);
+                List<RGBPixel> colorsrep=new List<RGBPixel>();
+                foreach(var color in ColorPallette.Values)
+                {
+                    colorsrep.Add(color);
+                }
+                
+                for(int i = 0; i < num_of_clusters - cluster.Count; i++)
+                {
+                    int lastkey=Forest.getlaskey();
+                    lastkey++;
+                      cluster.Add(lastkey,colorsrep);
+                    
+                   
+                }
+
+            }
+            return cluster;
+        }
+
        
 
     }
