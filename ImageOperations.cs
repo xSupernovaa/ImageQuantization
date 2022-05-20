@@ -148,7 +148,7 @@ namespace ImageQuantization
         /// </summary>
         /// <param name="ImageMatrix">2D array that contains the image</param>
         /// <param name="PicBox">PictureBox object to display the image on it</param>
-        public static void DisplayImage(RGBPixel[,] ImageMatrix, PictureBox PicBox)
+        public static Bitmap DisplayImage(RGBPixel[,] ImageMatrix, PictureBox PicBox)
         {
             // Create Image:
             //==============
@@ -178,8 +178,9 @@ namespace ImageQuantization
                 }
                 ImageBMP.UnlockBits(bmd);
             }
-            PicBox.Image = ImageBMP;
+            if(PicBox != null)
+                PicBox.Image = ImageBMP;
+            return ImageBMP;
         }
-
     }
 }

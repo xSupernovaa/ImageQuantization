@@ -8,9 +8,9 @@ namespace ImageQuantization
 {
     class ColorQuantization
     {
-        public const bool BOUNS = false;
         public static List<int> distinctColorsList;
         public static uint noise = 0;
+        public static int k;
 
         public static RGBPixel[,] ColorQuantize(RGBPixel[,] ImageMatrix, int number_of_clusters)
         {
@@ -21,19 +21,19 @@ namespace ImageQuantization
 
             ConstructEdges(distinctColorsList, parent);
 
-            List<Edge> edges;
-            if(BOUNS)
-                edges = EdgesOfclustersB(number_of_clusters);
+            if(Config.BOUNS)
+                EdgesOfclustersB(number_of_clusters);
             else
-                edges = ClusterEdges(number_of_clusters);
+                ClusterEdges(number_of_clusters);
 
 
             Forest forest = new Forest(MST.edges);
 
             List<List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
-            if(BOUNS)
+            if(Config.BOUNS)
                 clusters = Truecluster(clusters, number_of_clusters);
 
+            k = clusters.Count;
             Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
 
             List<RGBPixel> colorPallette = GetColorPallette(clusters);
