@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using static ImageQuantization.MST;
 
+
 namespace ImageQuantization
 {
     class ColorQuantization
     {
+        public const bool BOUNS = false;
         public static List<int> distinctColorsList;
         public static uint noise = 0;
 
@@ -19,15 +21,18 @@ namespace ImageQuantization
 
             ConstructEdges(distinctColorsList, parent);
 
-
-            List<Edge> edges = ClusterEdges(number_of_clusters);
-            //List<Edge> edges = EdgesOfclustersB(number_of_clusters);
+            List<Edge> edges;
+            if(BOUNS)
+                edges = EdgesOfclustersB(number_of_clusters);
+            else
+                edges = ClusterEdges(number_of_clusters);
 
 
             Forest forest = new Forest(MST.edges);
 
             List<List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
-            //clusters = Truecluster(clusters, number_of_clusters);
+            if(BOUNS)
+                clusters = Truecluster(clusters, number_of_clusters);
 
             Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
 
