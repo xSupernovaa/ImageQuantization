@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 class Forest
 {
-    static Dictionary<int, List<int>> Trees =
-            new Dictionary<int, List<int>>();
+    static Dictionary<int, List<int>> Trees;
     public Forest(List<Edge> Edges)
     {
+        Trees = new Dictionary<int, List<int>>();
         foreach (Edge edge in Edges)
         {
             addEdge(edge.from, edge.to);
+            addEdge(edge.to, edge.from);
         }
     }
 

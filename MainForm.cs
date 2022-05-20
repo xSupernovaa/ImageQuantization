@@ -44,12 +44,18 @@ namespace ImageQuantization
             stopWatch.Stop();
 
             TimeSpan ts = stopWatch.Elapsed;
-
+            distinctColorsTextBox.Text = ColorQuantization.distinctColorsList.Count.ToString();
+            mst_sum_text_box.Text = String.Format("{0:0.00}", MST.sum);
+            String tsString = ts.ToString();
+            tsString = tsString.Substring(tsString.IndexOf(':')+1, 8);
+            totalTimeTextBox.Text = tsString;
+            //numOfClustersTextBox.Text = //.ToString();
 
             if (pictureBox2.Image != null)
             {
                 pictureBox2.Image = null;
                 pictureBox2.Update();
+                //ColorQuantization.reset();
                 MessageBox.Show("Cleared!");
             }
 
@@ -58,5 +64,34 @@ namespace ImageQuantization
             MessageBox.Show(ts.ToString());
         }
 
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void distinctColorsTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void totalTimeTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
