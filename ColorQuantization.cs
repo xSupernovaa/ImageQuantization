@@ -29,7 +29,7 @@ namespace ImageQuantization
 
             Forest forest = new Forest(MST.edges);
 
-            List<List<RGBPixel>> clusters = Forest.BFS(distinctColorsList.Count);
+            List<List<RGBPixel>> clusters = Forest.GetClusters(distinctColorsList.Count);
             if(Config.BOUNS)
                 clusters = Truecluster(clusters, number_of_clusters);
 
@@ -168,7 +168,7 @@ namespace ImageQuantization
             return cluster;
         }
 
-        internal static void reset()
+        internal static void Reset()
         {
             distinctColorsList = null;
             noise = 0;

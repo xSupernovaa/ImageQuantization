@@ -9,12 +9,12 @@ class Forest
         Trees = new Dictionary<int, List<int>>();
         foreach (Edge edge in Edges)
         {
-            addEdge(edge.from, edge.to);
-            addEdge(edge.to, edge.from);
+            AddEdge(edge.from, edge.to);
+            AddEdge(edge.to, edge.from);
         }
     }
 
-    private void addEdge(int a, int b)
+    private void AddEdge(int a, int b)
     {
         if (Trees.ContainsKey(a))
         {
@@ -33,7 +33,7 @@ class Forest
         }
     }
 
-    public static List<RGBPixel> BFS_HELP(int s, List<bool> visited)
+    public static List<RGBPixel> BFS(int s, List<bool> visited)
     {
 
         List<RGBPixel> cluster = new List<RGBPixel>();
@@ -72,8 +72,7 @@ class Forest
     {
         return RGBPixel.UnHash(ColorQuantization.distinctColorsList[index]);
     }
-    static int lastkey;
-    public static List<List<RGBPixel>> BFS(int V)
+    public static List<List<RGBPixel>> GetClusters(int V)
     {
         List<bool> visited = new List<bool>();
         List<List<RGBPixel>> clusters = new List<List<RGBPixel>>();
@@ -87,17 +86,10 @@ class Forest
         {
             if (!visited[i])
             {
-                var cluster = BFS_HELP(i, visited);
+                var cluster = BFS(i, visited);
                 clusters.Add(cluster);
             }
         }
-        lastkey=clusters.Count-1;
         return clusters;
     }
-    public static int getlaskey()
-    {
-        return lastkey;
-    }
-
-
 }

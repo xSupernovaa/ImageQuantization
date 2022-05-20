@@ -58,8 +58,9 @@ namespace ImageQuantization
             for (int i = 1; i < V; i++)
             {
                 int weight = ColorQuantization.GetWeight(distinctColors[i], distinctColors[parent[i]]);
-                sum += ColorQuantization.GetDistance(weight);
-                Edge e = new Edge(parent[i], i, weight, ColorQuantization.GetDistance(weight));
+                double distance = ColorQuantization.GetDistance(weight);
+                sum += distance;
+                Edge e = new Edge(parent[i], i, weight, distance);
                 edges.Add(e);
             }
             Console.WriteLine("Total weight of MST is " + MST.sum);

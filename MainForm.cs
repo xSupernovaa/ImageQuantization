@@ -34,12 +34,12 @@ namespace ImageQuantization
                 //Small
                 { completePath + @"Small\Small.Case1.bmp", "192" },
                 { completePath + @"Small\Small.Case2.bmp", "2160" },
-                ////Meduim
-                //{ completePath + @"Medium\Medium.Case1.bmp", "1737" },
-                //{ completePath + @"Medium\Medium.Case2.bmp", "2284" },
-                ////Large
-                //{ completePath + @"Large\Large.Case1.bmp", "3829" },
-                //{ completePath + @"Large\Large.Case2.bmp", "25666" },
+                //Meduim
+                { completePath + @"Medium\Medium.Case1.bmp", "1737" },
+                { completePath + @"Medium\Medium.Case2.bmp", "2284" },
+                //Large
+                { completePath + @"Large\Large.Case1.bmp", "3829" },
+                { completePath + @"Large\Large.Case2.bmp", "25666" },
             };
         }
 
@@ -101,6 +101,8 @@ namespace ImageQuantization
         public static Stopwatch stopWatch;
         private void btnGaussSmooth_Click(object sender, EventArgs e)
         {
+            ColorQuantization.Reset();
+
             int clusters = int.Parse(txtClusters.Text);
 
             RGBPixel[,] QuantizedImageMatrix = (RGBPixel[,])OriginalImageMatrix.Clone();
@@ -128,7 +130,6 @@ namespace ImageQuantization
             {
                 pictureBox2.Image = null;
                 pictureBox2.Update();
-                ColorQuantization.reset();
                 if(!Config.AUTOTEST)
                     MessageBox.Show("Cleared!");
             }
