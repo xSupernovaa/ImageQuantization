@@ -21,7 +21,8 @@ namespace ImageQuantization
 
             ConstructEdges(distinctColorsList, parent); //O(D)
 
-            if(Config.BOUNS)
+
+            if (Config.BOUNS)
                 EdgesOfclustersB(number_of_clusters);
             else
                 ClusterEdges(number_of_clusters); //O(DlogD)
@@ -30,7 +31,7 @@ namespace ImageQuantization
             Forest forest = new Forest(MST.edges); //O(D-K)
 
             List<List<RGBPixel>> clusters = Forest.GetClusters(distinctColorsList.Count);
-            if(Config.BOUNS)
+            if (Config.BOUNS)
                 clusters = Truecluster(clusters, number_of_clusters);
 
             k = clusters.Count;

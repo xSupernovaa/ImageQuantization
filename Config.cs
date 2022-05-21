@@ -8,7 +8,7 @@ namespace ImageQuantization
 {
     public class Config
     {
-        public const bool AUTOTEST = true;
+        public const bool AUTOTEST = false;
         public const bool BOUNS = false;
 
         public const string testcasesPath = @"D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\Testcases\";

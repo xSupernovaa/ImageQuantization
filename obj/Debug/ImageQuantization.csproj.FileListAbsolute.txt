@@ -68,3 +68,17 @@ C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\ImageQuantiz
 C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\ImageQuantization.pdb
 C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\Lucene.Net.xml
 C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.csproj.CopyComplete
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\ImageQuantization.exe
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\ImageQuantization.pdb
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\Lucene.Net.dll
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\Lucene.Net.pdb
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\bin\Debug\Lucene.Net.xml
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.csprojAssemblyReference.cache
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.MainForm.resources
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.Properties.Resources.resources
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.GenerateResource.cache
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.CopyComplete
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.exe
+C:\Users\Bassel\Desktop\Study\Algorithms\ImageQuantization\Image Quantization Startup Code\[TEMPLATE] ImageQuantization\ImageQuantization\obj\Debug\ImageQuantization.pdb

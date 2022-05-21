@@ -9,9 +9,7 @@ namespace ImageQuantization
     {
         public int from;
         public int to;
-        // weight before square root
         public long weightBeforeSR;
-
         public double weightAfterSR;
 
 
