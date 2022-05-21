@@ -10,28 +10,28 @@ namespace ImageQuantization
         //MST SUM
         public static double sum;
 
-        public static int[] Prim(List<int> distinctColors)
+        public static int[] Prim(List<int> distinctColors) //O(D^2)
         {
             int V = distinctColors.Count;
             int[] parent = new int[V];
             int[] key = new int[V];
             bool[] mstSet = new bool[V];
             //initialize all keys as infinite
-            for (int i = 0; i < V; i++)
+            for (int i = 0; i < V; i++) //O(D)
             {
                 key[i] = int.MaxValue;
                 mstSet[i] = false;
             }
             key[0] = 0;
             parent[0] = -1;
-            for (int i = 0; i < V - 1; i++)
+            for (int i = 0; i < V - 1; i++)             //O(D^2)
             {
-                int u = GetMinimumKey(key, mstSet);
+                int u = GetMinimumKey(key, mstSet); //(D)
                 mstSet[u] = true;
                 //relax all edges connected to u
-                for (int v = 0; v < V; v++)
+                for (int v = 0; v < V; v++)         //O(D)
                 {
-                    int distance = ColorQuantization.GetWeight(
+                    int distance = ColorQuantization.GetWeight( //O(1)
                         distinctColors[u],
                         distinctColors[v]
                         );
@@ -51,30 +51,31 @@ namespace ImageQuantization
             return parent;
         }
 
-        public static void ConstructEdges(List<int> distinctColors, int[] parent)
+        public static void ConstructEdges(List<int> distinctColors, int[] parent) //O(D)
         {
             edges = new List<Edge>();
             int V = distinctColors.Count;
-            for (int i = 1; i < V; i++)
+            for (int i = 1; i < V; i++)     //O(D)
             {
-                int weight = ColorQuantization.GetWeight(distinctColors[i], distinctColors[parent[i]]);
-                double distance = ColorQuantization.GetDistance(weight);
+                int weight = ColorQuantization.GetWeight(distinctColors[i], distinctColors[parent[i]]); //O(1)
+                double distance = ColorQuantization.GetDistance(weight);    //O(1)
                 sum += distance;
-                Edge e = new Edge(parent[i], i, weight, distance);
+                Edge e = new Edge(parent[i], i, weight, distance); //O(1)
                 edges.Add(e);
             }
             Console.WriteLine("Total weight of MST is " + MST.sum);
         }
 
-        public static List<Edge> ClusterEdges(int num_of_clusters)
+        public static List<Edge> ClusterEdges(int num_of_clusters) //O(DlogD)
         {
             if (edges == null)
             {
                 throw new Exception("MST is not constructed");
             }
-            edges.Sort();
+            edges.Sort();      //O(DlogD)
             int numOfEdgesBefore = edges.Count;
             for (int i = 0; i < num_of_clusters - 1; i++)
+                //O(K) where K is num_of_clusters <= D
             {
                 int lastIndex = edges.Count - 1;
                 edges.RemoveAt(lastIndex);

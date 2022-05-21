@@ -17,26 +17,26 @@ namespace ImageQuantization
             
             distinctColorsList = GetDistinctColorsList(ImageMatrix);
 
-            int[] parent = Prim(distinctColorsList);
+            int[] parent = Prim(distinctColorsList); //O(D^2)
 
-            ConstructEdges(distinctColorsList, parent);
+            ConstructEdges(distinctColorsList, parent); //O(D)
 
             if(Config.BOUNS)
                 EdgesOfclustersB(number_of_clusters);
             else
-                ClusterEdges(number_of_clusters);
+                ClusterEdges(number_of_clusters); //O(DlogD)
 
 
-            Forest forest = new Forest(MST.edges);
+            Forest forest = new Forest(MST.edges); //O(D-K)
 
             List<List<RGBPixel>> clusters = Forest.GetClusters(distinctColorsList.Count);
             if(Config.BOUNS)
                 clusters = Truecluster(clusters, number_of_clusters);
 
             k = clusters.Count;
-            Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters);
+            Dictionary<int, short> clusterIndices = PopulateClusterIndicies(clusters); //O(D)
 
-            List<RGBPixel> colorPallette = GetColorPallette(clusters);
+            List<RGBPixel> colorPallette = GetColorPallette(clusters); //O(D)
 
             ReduceImageColors(ImageMatrix, colorPallette, clusterIndices);
 
@@ -48,11 +48,14 @@ namespace ImageQuantization
             return ImageMatrix;
         }
 
-        private static Dictionary<int, short> PopulateClusterIndicies(List<List<RGBPixel>> clusters)
+        private static Dictionary<int, short> PopulateClusterIndicies(List<List<RGBPixel>> clusters) //O(D) 
         {
             Console.WriteLine("START PopulateClusterIndicies at: " + (MainForm.stopWatch.Elapsed).ToString());
             Dictionary<int, short> clusterIndices = new Dictionary<int, short>();
             for(int i = 0; i< clusters.Count; i++)
+            //this will loop over all nodes in all clusters,
+            //since number of nodes is D then this whole loop takes
+            //O(D)
             {
                 var cluster = clusters[i];
                 for (int j = 0; j < cluster.Count; j++)
@@ -65,11 +68,14 @@ namespace ImageQuantization
             return clusterIndices;
         }
 
-        public static List<RGBPixel> GetColorPallette(List<List<RGBPixel>> clusters)
+        public static List<RGBPixel> GetColorPallette(List<List<RGBPixel>> clusters) //O(D)
         {
             // for every member of cluster sum all values and get the mean for the sum
             List<RGBPixel> colorPallete = new List<RGBPixel>();
             for (int clusterIndex = 0; clusterIndex < clusters.Count; clusterIndex++)
+            //this will loop over all nodes in all clusters,
+            //since number of nodes is D then this whole loop takes
+            //O(D)
             {
                 int sumRed = 0, sumGreen = 0, sumBlue = 0;
                 int numberOfColorsInCluster = clusters[clusterIndex].Count;
@@ -111,7 +117,7 @@ namespace ImageQuantization
             return colorsList;
         }
 
-        public static int GetWeight(int a, int b)
+        public static int GetWeight(int a, int b) //O(1)
         {
             RGBPixel aPixel = RGBPixel.UnHash(a);
             RGBPixel bPixel = RGBPixel.UnHash(b);
@@ -121,7 +127,7 @@ namespace ImageQuantization
             return differenceRed + differenceGreen + differenceBlue;
         }
 
-        public static double GetDistance(int weight)
+        public static double GetDistance(int weight) //O(1)
         {
             return Math.Sqrt(weight);
         }
@@ -168,7 +174,7 @@ namespace ImageQuantization
             return cluster;
         }
 
-        internal static void Reset()
+        internal static void Reset() //O(1)
         {
             distinctColorsList = null;
             noise = 0;
