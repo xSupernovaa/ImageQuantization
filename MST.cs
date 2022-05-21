@@ -17,7 +17,7 @@ namespace ImageQuantization
             int[] key = new int[V];
             bool[] mstSet = new bool[V];
             //initialize all keys as infinite
-            for (int i = 0; i < V; i++) //O(D)
+            for (int i = 0; i < V; i++)             //O(D)
             {
                 key[i] = int.MaxValue;
                 mstSet[i] = false;
@@ -107,11 +107,11 @@ namespace ImageQuantization
 
 
 
-        private static int GetMinimumKey(int[] key, bool[] mstSet)
+        private static int GetMinimumKey(int[] key, bool[] mstSet)  //O(D)
         {
             int min = int.MaxValue;
             int min_index = -1;
-            for (int v = 0; v < key.Length; v++)
+            for (int v = 0; v < key.Length; v++)        //O(D)
             {
                 if (mstSet[v] == false && key[v] < min)
                 {

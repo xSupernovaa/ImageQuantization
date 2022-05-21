@@ -103,12 +103,12 @@ namespace ImageQuantization
 
         }
 
-        private static List<int> GetDistinctColorsList(RGBPixel[,] ImageMatrix)
+        private static List<int> GetDistinctColorsList(RGBPixel[,] ImageMatrix) //O(N^2)
         {
             HashSet<int> distinctColors = new HashSet<int>();
 
             foreach (RGBPixel pixel in ImageMatrix)
-                distinctColors.Add(RGBPixel.Hash(pixel));
+                distinctColors.Add(RGBPixel.Hash(pixel)); // O(N^2) if C# handles resizing well
 
             List<int> colorsList = distinctColors.ToList();
 
