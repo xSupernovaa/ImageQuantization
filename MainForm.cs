@@ -23,8 +23,8 @@ namespace ImageQuantization
 
         void populateRequiredK()
         {
-            string samplePath = Config.testcasesPath + @"Sample\Sample Test\";
-            string completePath = Config.testcasesPath + @"Complete\Complete Test\";
+            string samplePath = Paths.testcasesPath + @"Sample\Sample Test\";
+            string completePath = Paths.testcasesPath + @"Complete\Complete Test\";
             requiredK = new Dictionary<string, string>
             {
                 ////Sample
@@ -61,7 +61,7 @@ namespace ImageQuantization
         private async void AutoTest()
         {
 
-            File.WriteAllText(Config.outputPath + "Test_Results.txt", Config.dashes);
+            File.WriteAllText(Paths.outputPath + "Test_Results.txt", Config.dashes);
             foreach (var path in requiredK.Keys)
             {
                 OriginalImageMatrix = ImageOperations.OpenImage(path);
@@ -73,7 +73,7 @@ namespace ImageQuantization
                 txtClusters.Text = requiredK[path];
                 await RunColorQuantize();
             }
-            File.AppendAllText(Config.outputPath + "Test_Results.txt", Config.dashes + Environment.NewLine);
+            File.AppendAllText(Paths.outputPath + "Test_Results.txt", Config.dashes + Environment.NewLine);
 
         }
 
@@ -145,7 +145,7 @@ namespace ImageQuantization
 
             string testCaseResult = Config.GetTestCaseResultString(currImageName, distinctColorsTextBox.Text, mst_sum_text_box.Text, totalTimeTextBox.Text, numOfClustersTextBox.Text);
 
-            File.AppendAllText(Config.outputPath + "Test_Results.txt", testCaseResult + Environment.NewLine);
+            File.AppendAllText(Paths.outputPath + "Test_Results.txt", testCaseResult + Environment.NewLine);
 
 
             if (pictureBox2.Image != null)
@@ -157,7 +157,7 @@ namespace ImageQuantization
             }
             Bitmap ImageBMP = ImageOperations.DisplayImage(QuantizedImageMatrix, null);
             if (Config.AUTOTEST)
-                ImageBMP.Save(Config.outputPath + "Result_" + currImageName, ImageFormat.Bmp);
+                ImageBMP.Save(Paths.outputPath + "Result_" + currImageName, ImageFormat.Bmp);
             pictureBox2.Image = ImageBMP;
             if (!Config.AUTOTEST)
                 MessageBox.Show(ts.ToString());

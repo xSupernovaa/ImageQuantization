@@ -11,8 +11,6 @@ namespace ImageQuantization
         public const bool AUTOTEST = true;
         public const bool BOUNS = false;
 
-        public const string testcasesPath = @"D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\Testcases\";
-        public const string outputPath = @"D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\OUTPUT\";
         public const string dashes = "--------------------------------------------------------------------------------\n";
 
         public static string GetTestCaseResultString(string currImageName, string distinctColorsTextBox, string mst_sum_text_box, string totalTimeTextBox, string numOfClustersTextBox)
@@ -23,13 +21,13 @@ namespace ImageQuantization
 
         public static void VerifyOutputDirExistEmpty()
         {
-            if (!Directory.Exists(outputPath))
+            if (!Directory.Exists(Paths.outputPath))
             {
-                Directory.CreateDirectory(outputPath);
+                Directory.CreateDirectory(Paths.outputPath);
             }
             else
             {
-                string[] files = Directory.GetFiles(outputPath);
+                string[] files = Directory.GetFiles(Paths.outputPath);
                 foreach (string file in files)
                 {
                     File.Delete(file);
