@@ -120,7 +120,7 @@ namespace ImageQuantization
             this.btnQuantize.TabIndex = 5;
             this.btnQuantize.Text = "Quantize";
             this.btnQuantize.UseVisualStyleBackColor = true;
-            this.btnQuantize.Click += new System.EventHandler(this.btnGaussSmooth_Click);
+            this.btnQuantize.Click += new System.EventHandler(this.btnQuantize_Click);
             // 
             // label4
             // 

@@ -103,7 +103,7 @@ namespace ImageQuantization
             txtWidth.Text = ImageOperations.GetWidth(OriginalImageMatrix).ToString();
             txtHeight.Text = ImageOperations.GetHeight(OriginalImageMatrix).ToString();
         }
-        private async void btnGaussSmooth_Click(object sender, EventArgs e)
+        private async void btnQuantize_Click(object sender, EventArgs e)
         {
             await RunColorQuantize();
         }
