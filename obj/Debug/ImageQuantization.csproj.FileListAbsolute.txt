@@ -68,3 +68,4 @@ C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\ImageQuantiz
 C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\ImageQuantization.pdb
 C:\Users\Hp\Documents\term two\projects\ImageQuantization\bin\Debug\Lucene.Net.xml
 C:\Users\Hp\Documents\term two\projects\ImageQuantization\obj\Debug\ImageQuantization.csproj.CopyComplete
+D:\Education\6th\Analysis and Design of Algorithms\Project\Project Sol\ImageQuantization\bin\Debug\ImageQuantization.exe.config

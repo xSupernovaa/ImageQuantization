@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows;
+using System.Threading.Tasks;
 using System.Data;
 using System.Drawing;
 using System.Text;
@@ -9,7 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using ImageQuantization;
 using System.Drawing.Imaging;
-
+using System.Windows.Threading;
 
 namespace ImageQuantization
 {
@@ -17,6 +19,7 @@ namespace ImageQuantization
     {
         public static Dictionary<string, string> requiredK; //makes testing easier
         public static string currImageName;
+        public static Stopwatch stopWatch;
 
         void populateRequiredK()
         {
@@ -24,22 +27,22 @@ namespace ImageQuantization
             string completePath = Config.testcasesPath + @"Complete\Complete Test\";
             requiredK = new Dictionary<string, string>
             {
-                //Sample
-                { samplePath + @"Case1\Sample.Case1.bmp", "3" },
-                { samplePath + @"Case2\Sample.Case2.bmp", "2" },
-                { samplePath + @"Case3\Sample.Case3.bmp", "500" },
-                { samplePath + @"Case4\Sample.Case4.bmp", "10" },
-                { samplePath + @"Case5\Sample.Case5.bmp", "32" },
-                //Complete
+                ////Sample
+                //{ samplePath + @"Case1\Sample.Case1.bmp", "3" },
+                //{ samplePath + @"Case2\Sample.Case2.bmp", "2" },
+                //{ samplePath + @"Case3\Sample.Case3.bmp", "500" },
+                //{ samplePath + @"Case4\Sample.Case4.bmp", "10" },
+                //{ samplePath + @"Case5\Sample.Case5.bmp", "32" },
+                ////Complete
                 //Small
                 { completePath + @"Small\Small.Case1.bmp", "192" },
                 { completePath + @"Small\Small.Case2.bmp", "2160" },
-                //Meduim
-                { completePath + @"Medium\Medium.Case1.bmp", "1737" },
-                { completePath + @"Medium\Medium.Case2.bmp", "2284" },
-                //Large
-                { completePath + @"Large\Large.Case1.bmp", "3829" },
-                { completePath + @"Large\Large.Case2.bmp", "25666" },
+                ////Meduim
+                //{ completePath + @"Medium\Medium.Case1.bmp", "1737" },
+                //{ completePath + @"Medium\Medium.Case2.bmp", "2284" },
+                ////Large
+                //{ completePath + @"Large\Large.Case1.bmp", "3829" },
+                //{ completePath + @"Large\Large.Case2.bmp", "25666" },
             };
         }
 
@@ -55,20 +58,22 @@ namespace ImageQuantization
 
         }
 
-        private void AutoTest()
+        private async void AutoTest()
         {
 
             File.WriteAllText(Config.outputPath + "Test_Results.txt", Config.dashes);
             foreach (var path in requiredK.Keys)
             {
                 OriginalImageMatrix = ImageOperations.OpenImage(path);
+                ImageOperations.DisplayImage(OriginalImageMatrix, pictureBox1);
+                txtWidth.Text = ImageOperations.GetWidth(OriginalImageMatrix).ToString();
+                txtHeight.Text = ImageOperations.GetHeight(OriginalImageMatrix).ToString();
                 currImageName = path;
                 currImageName = currImageName.Substring(currImageName.LastIndexOf("\\") + 1);
                 txtClusters.Text = requiredK[path];
-                btnGaussSmooth_Click(null, EventArgs.Empty);
+                await RunColorQuantize();
             }
             File.AppendAllText(Config.outputPath + "Test_Results.txt", Config.dashes + Environment.NewLine);
-            ImageOperations.DisplayImage(OriginalImageMatrix, pictureBox1);
 
         }
 
@@ -98,8 +103,12 @@ namespace ImageQuantization
             txtWidth.Text = ImageOperations.GetWidth(OriginalImageMatrix).ToString();
             txtHeight.Text = ImageOperations.GetHeight(OriginalImageMatrix).ToString();
         }
-        public static Stopwatch stopWatch;
-        private void btnGaussSmooth_Click(object sender, EventArgs e)
+        private async void btnGaussSmooth_Click(object sender, EventArgs e)
+        {
+            await RunColorQuantize();
+        }
+        
+        private async Task RunColorQuantize()
         {
             ColorQuantization.Reset();
 
@@ -109,18 +118,31 @@ namespace ImageQuantization
 
             stopWatch = new Stopwatch();
             // Get the elapsed time as a TimeSpan value.
+            btnQuantize.Enabled = false;
+            btnOpen.Enabled = false;
+            string origText = quantizedLabel.Text;
+            txtClusters.Enabled = false;
+            quantizedLabel.Text = "Quantizing... Please wait";
             stopWatch.Start();
-            ColorQuantization.ColorQuantize(QuantizedImageMatrix, clusters);
+            //ColorQuantization.ColorQuantize(QuantizedImageMatrix, clusters);
+            await Task.Run(() =>
+            {
+                ColorQuantization.ColorQuantize(QuantizedImageMatrix, clusters);
+            });
             stopWatch.Stop();
+            txtClusters.Enabled = true;
+            quantizedLabel.Text = origText;
+            btnQuantize.Enabled = true;
+            btnOpen.Enabled = true;
 
             TimeSpan ts = stopWatch.Elapsed;
             distinctColorsTextBox.Text = ColorQuantization.distinctColorsList.Count.ToString();
             mst_sum_text_box.Text = String.Format("{0:0.00}", MST.sum);
             String tsString = ts.ToString();
-            tsString = tsString.Substring(tsString.IndexOf(':')+1, 8);
+            tsString = tsString.Substring(tsString.IndexOf(':') + 1, 8);
             totalTimeTextBox.Text = tsString;
             numOfClustersTextBox.Text = ColorQuantization.k.ToString();
-            
+
             string testCaseResult = Config.GetTestCaseResultString(currImageName, distinctColorsTextBox.Text, mst_sum_text_box.Text, totalTimeTextBox.Text, numOfClustersTextBox.Text);
 
             File.AppendAllText(Config.outputPath + "Test_Results.txt", testCaseResult + Environment.NewLine);
@@ -130,11 +152,11 @@ namespace ImageQuantization
             {
                 pictureBox2.Image = null;
                 pictureBox2.Update();
-                if(!Config.AUTOTEST)
+                if (!Config.AUTOTEST)
                     MessageBox.Show("Cleared!");
             }
             Bitmap ImageBMP = ImageOperations.DisplayImage(QuantizedImageMatrix, null);
-            if(Config.AUTOTEST)
+            if (Config.AUTOTEST)
                 ImageBMP.Save(Config.outputPath + "Result_" + currImageName, ImageFormat.Bmp);
             pictureBox2.Image = ImageBMP;
             if (!Config.AUTOTEST)

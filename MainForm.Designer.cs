@@ -32,8 +32,8 @@ namespace ImageQuantization
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnOpen = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnGaussSmooth = new System.Windows.Forms.Button();
+            this.quantizedLabel = new System.Windows.Forms.Label();
+            this.btnQuantize = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtHeight = new System.Windows.Forms.TextBox();
             this.txtWidth = new System.Windows.Forms.TextBox();
@@ -99,28 +99,28 @@ namespace ImageQuantization
             this.label1.TabIndex = 3;
             this.label1.Text = "Original Image";
             // 
-            // label2
+            // quantizedLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(807, 484);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(185, 24);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Quantized Image";
+            this.quantizedLabel.AutoSize = true;
+            this.quantizedLabel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.quantizedLabel.Location = new System.Drawing.Point(807, 484);
+            this.quantizedLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.quantizedLabel.Name = "quantizedLabel";
+            this.quantizedLabel.Size = new System.Drawing.Size(185, 24);
+            this.quantizedLabel.TabIndex = 4;
+            this.quantizedLabel.Text = "Quantized Image";
             // 
-            // btnGaussSmooth
+            // btnQuantize
             // 
-            this.btnGaussSmooth.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGaussSmooth.Location = new System.Drawing.Point(588, 526);
-            this.btnGaussSmooth.Margin = new System.Windows.Forms.Padding(4);
-            this.btnGaussSmooth.Name = "btnGaussSmooth";
-            this.btnGaussSmooth.Size = new System.Drawing.Size(135, 76);
-            this.btnGaussSmooth.TabIndex = 5;
-            this.btnGaussSmooth.Text = "Quantize";
-            this.btnGaussSmooth.UseVisualStyleBackColor = true;
-            this.btnGaussSmooth.Click += new System.EventHandler(this.btnGaussSmooth_Click);
+            this.btnQuantize.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnQuantize.Location = new System.Drawing.Point(588, 526);
+            this.btnQuantize.Margin = new System.Windows.Forms.Padding(4);
+            this.btnQuantize.Name = "btnQuantize";
+            this.btnQuantize.Size = new System.Drawing.Size(135, 76);
+            this.btnQuantize.TabIndex = 5;
+            this.btnQuantize.Text = "Quantize";
+            this.btnQuantize.UseVisualStyleBackColor = true;
+            this.btnQuantize.Click += new System.EventHandler(this.btnGaussSmooth_Click);
             // 
             // label4
             // 
@@ -135,6 +135,7 @@ namespace ImageQuantization
             // 
             // txtHeight
             // 
+            this.txtHeight.Enabled = false;
             this.txtHeight.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHeight.Location = new System.Drawing.Point(97, 573);
             this.txtHeight.Margin = new System.Windows.Forms.Padding(4);
@@ -146,6 +147,7 @@ namespace ImageQuantization
             // 
             // txtWidth
             // 
+            this.txtWidth.Enabled = false;
             this.txtWidth.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtWidth.Location = new System.Drawing.Point(97, 526);
             this.txtWidth.Margin = new System.Windows.Forms.Padding(4);
@@ -330,8 +332,8 @@ namespace ImageQuantization
             this.Controls.Add(this.txtWidth);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtHeight);
-            this.Controls.Add(this.btnGaussSmooth);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnQuantize);
+            this.Controls.Add(this.quantizedLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnOpen);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -354,8 +356,8 @@ namespace ImageQuantization
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnGaussSmooth;
+        private System.Windows.Forms.Label quantizedLabel;
+        private System.Windows.Forms.Button btnQuantize;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtHeight;
         private System.Windows.Forms.TextBox txtWidth;
