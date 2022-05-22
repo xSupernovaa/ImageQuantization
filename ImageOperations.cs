@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 
 ///Algorithms Project
-///Intelligent Scissors
+///Image Quantization
 ///
 
 namespace ImageQuantization

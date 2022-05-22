@@ -27,22 +27,22 @@ namespace ImageQuantization
             string completePath = Paths.testcasesPath + @"Complete\Complete Test\";
             requiredK = new Dictionary<string, string>
             {
-                ////Sample
-                //{ samplePath + @"Case1\Sample.Case1.bmp", "3" },
-                //{ samplePath + @"Case2\Sample.Case2.bmp", "2" },
-                //{ samplePath + @"Case3\Sample.Case3.bmp", "500" },
-                //{ samplePath + @"Case4\Sample.Case4.bmp", "10" },
-                //{ samplePath + @"Case5\Sample.Case5.bmp", "32" },
-                ////Complete
+                //Sample
+                { samplePath + @"Case1\Sample.Case1.bmp", "3" },
+                { samplePath + @"Case2\Sample.Case2.bmp", "2" },
+                { samplePath + @"Case3\Sample.Case3.bmp", "500" },
+                { samplePath + @"Case4\Sample.Case4.bmp", "10" },
+                { samplePath + @"Case5\Sample.Case5.bmp", "32" },
+                //Complete
                 //Small
                 { completePath + @"Small\Small.Case1.bmp", "192" },
                 { completePath + @"Small\Small.Case2.bmp", "2160" },
-                ////Meduim
-                //{ completePath + @"Medium\Medium.Case1.bmp", "1737" },
-                //{ completePath + @"Medium\Medium.Case2.bmp", "2284" },
-                ////Large
-                //{ completePath + @"Large\Large.Case1.bmp", "3829" },
-                //{ completePath + @"Large\Large.Case2.bmp", "25666" },
+                //Meduim
+                { completePath + @"Medium\Medium.Case1.bmp", "1737" },
+                { completePath + @"Medium\Medium.Case2.bmp", "2284" },
+                //Large
+                { completePath + @"Large\Large.Case1.bmp", "3829" },
+                { completePath + @"Large\Large.Case2.bmp", "25666" },
             };
         }
 
