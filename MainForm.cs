@@ -27,7 +27,7 @@ namespace ImageQuantization
             string completePath = Paths.testcasesPath + @"Complete\Complete Test\";
             requiredK = new Dictionary<string, string>
             {
-                //Sample
+                ////Sample
                 { samplePath + @"Case1\Sample.Case1.bmp", "3" },
                 { samplePath + @"Case2\Sample.Case2.bmp", "2" },
                 { samplePath + @"Case3\Sample.Case3.bmp", "500" },
@@ -37,12 +37,12 @@ namespace ImageQuantization
                 //Small
                 { completePath + @"Small\Small.Case1.bmp", "192" },
                 { completePath + @"Small\Small.Case2.bmp", "2160" },
-                //Meduim
-                { completePath + @"Medium\Medium.Case1.bmp", "1737" },
-                { completePath + @"Medium\Medium.Case2.bmp", "2284" },
-                //Large
-                { completePath + @"Large\Large.Case1.bmp", "3829" },
-                { completePath + @"Large\Large.Case2.bmp", "25666" },
+                ////Meduim
+                //{ completePath + @"Medium\Medium.Case1.bmp", "1737" },
+                //{ completePath + @"Medium\Medium.Case2.bmp", "2284" },
+                ////Large
+                //{ completePath + @"Large\Large.Case1.bmp", "3829" },
+                //{ completePath + @"Large\Large.Case2.bmp", "25666" },
             };
         }
 
@@ -51,7 +51,8 @@ namespace ImageQuantization
             populateRequiredK();
 
             InitializeComponent();
-            
+
+            progressBar1.Visible = false;
             Config.VerifyOutputDirExistEmpty();
             if (Config.AUTOTEST)
                 AutoTest();
@@ -120,18 +121,18 @@ namespace ImageQuantization
             // Get the elapsed time as a TimeSpan value.
             btnQuantize.Enabled = false;
             btnOpen.Enabled = false;
-            string origText = quantizedLabel.Text;
             txtClusters.Enabled = false;
-            quantizedLabel.Text = "Quantizing... Please wait";
+            quantizedLabel.Hide();
+            progressBar1.Show();
             stopWatch.Start();
-            //ColorQuantization.ColorQuantize(QuantizedImageMatrix, clusters);
             await Task.Run(() =>
             {
                 ColorQuantization.ColorQuantize(QuantizedImageMatrix, clusters);
             });
             stopWatch.Stop();
+            progressBar1.Hide();
+            quantizedLabel.Show();
             txtClusters.Enabled = true;
-            quantizedLabel.Text = origText;
             btnQuantize.Enabled = true;
             btnOpen.Enabled = true;
 
@@ -155,10 +156,9 @@ namespace ImageQuantization
                 if (!Config.AUTOTEST)
                     MessageBox.Show("Cleared!");
             }
-            Bitmap ImageBMP = ImageOperations.DisplayImage(QuantizedImageMatrix, null);
+            ImageOperations.DisplayImage(QuantizedImageMatrix, pictureBox2);
             if (Config.AUTOTEST)
-                ImageBMP.Save(Paths.outputPath + "Result_" + currImageName, ImageFormat.Bmp);
-            pictureBox2.Image = ImageBMP;
+                pictureBox2.Image.Save(Paths.outputPath + "Result_" + currImageName, ImageFormat.Bmp);
             if (!Config.AUTOTEST)
                 MessageBox.Show(ts.ToString());
         }
