@@ -117,9 +117,7 @@ namespace ImageQuantization
 
             stopWatch = new Stopwatch();
             // Get the elapsed time as a TimeSpan value.
-            btnQuantize.Enabled = false;
-            btnOpen.Enabled = false;
-            txtClusters.Enabled = false;
+            SetAllInputEnabled(false);
             quantizedLabel.Hide();
             progressBar1.Show();
             stopWatch.Start();
@@ -130,9 +128,7 @@ namespace ImageQuantization
             stopWatch.Stop();
             progressBar1.Hide();
             quantizedLabel.Show();
-            txtClusters.Enabled = true;
-            btnQuantize.Enabled = true;
-            btnOpen.Enabled = true;
+            SetAllInputEnabled(true);
 
             TimeSpan ts = stopWatch.Elapsed;
             distinctColorsTextBox.Text = ColorQuantization.distinctColorsList.Count.ToString();
@@ -160,6 +156,15 @@ namespace ImageQuantization
             if (!Config.AUTOTEST)
                 MessageBox.Show(ts.ToString());
         }
+
+        private void SetAllInputEnabled(bool enabled)
+        {
+            btnQuantize.Enabled = enabled;
+            btnOpen.Enabled = enabled;
+            txtClusters.Enabled = enabled;
+            autoTestButton.Enabled = enabled;
+        }
+        
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -194,10 +199,8 @@ namespace ImageQuantization
         private async void autoTestButton_Click(object sender, EventArgs e)
         {
             Config.AUTOTEST = true;
-            autoTestButton.Enabled = false;
             await AutoTest();
             Config.AUTOTEST = false;
-            autoTestButton.Enabled = true;
 
         }
     }
