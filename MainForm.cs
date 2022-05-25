@@ -54,12 +54,10 @@ namespace ImageQuantization
 
             progressBar1.Visible = false;
             Config.VerifyOutputDirExistEmpty();
-            if (Config.AUTOTEST)
-                AutoTest();
 
         }
 
-        private async void AutoTest()
+        private async Task AutoTest()
         {
 
             File.WriteAllText(Paths.outputPath + "Test_Results.txt", Config.dashes);
@@ -190,6 +188,16 @@ namespace ImageQuantization
 
         private void totalTimeTextBox_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private async void autoTestButton_Click(object sender, EventArgs e)
+        {
+            Config.AUTOTEST = true;
+            autoTestButton.Enabled = false;
+            await AutoTest();
+            Config.AUTOTEST = false;
+            autoTestButton.Enabled = true;
 
         }
     }

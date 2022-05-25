@@ -8,7 +8,7 @@ namespace ImageQuantization
 {
     public class Config
     {
-        public const bool AUTOTEST = true;
+        public static bool AUTOTEST = false;
         public const bool BOUNS = false;
 
         public const string dashes = "--------------------------------------------------------------------------------\n";

@@ -51,6 +51,7 @@ namespace ImageQuantization
             this.numOfClustersLabel = new System.Windows.Forms.Label();
             this.numOfClustersTextBox = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.autoTestButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
@@ -316,17 +317,28 @@ namespace ImageQuantization
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(630, 485);
+            this.progressBar1.Location = new System.Drawing.Point(628, 485);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(556, 23);
+            this.progressBar1.Size = new System.Drawing.Size(558, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 1;
+            // 
+            // autoTestButton
+            // 
+            this.autoTestButton.Location = new System.Drawing.Point(452, 485);
+            this.autoTestButton.Name = "autoTestButton";
+            this.autoTestButton.Size = new System.Drawing.Size(109, 23);
+            this.autoTestButton.TabIndex = 26;
+            this.autoTestButton.Text = "AutoTest";
+            this.autoTestButton.UseVisualStyleBackColor = true;
+            this.autoTestButton.Click += new System.EventHandler(this.autoTestButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1205, 615);
+            this.Controls.Add(this.autoTestButton);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.numOfClustersTextBox);
             this.Controls.Add(this.numOfClustersLabel);
@@ -385,6 +397,7 @@ namespace ImageQuantization
         private System.Windows.Forms.Label numOfClustersLabel;
         private System.Windows.Forms.TextBox numOfClustersTextBox;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button autoTestButton;
     }
 }
 
