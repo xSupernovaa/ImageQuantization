@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 
 ///Algorithms Project
-///Intelligent Scissors
+///Image Quantization
 ///
 
 namespace ImageQuantization
@@ -148,7 +148,7 @@ namespace ImageQuantization
         /// </summary>
         /// <param name="ImageMatrix">2D array that contains the image</param>
         /// <param name="PicBox">PictureBox object to display the image on it</param>
-        public static Bitmap DisplayImage(RGBPixel[,] ImageMatrix, PictureBox PicBox)
+        public static void DisplayImage(RGBPixel[,] ImageMatrix, PictureBox PicBox)
         {
             // Create Image:
             //==============
@@ -180,7 +180,6 @@ namespace ImageQuantization
             }
             if(PicBox != null)
                 PicBox.Image = ImageBMP;
-            return ImageBMP;
         }
     }
 }

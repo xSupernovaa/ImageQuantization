@@ -32,8 +32,8 @@ namespace ImageQuantization
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnOpen = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnGaussSmooth = new System.Windows.Forms.Button();
+            this.quantizedLabel = new System.Windows.Forms.Label();
+            this.btnQuantize = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtHeight = new System.Windows.Forms.TextBox();
             this.txtWidth = new System.Windows.Forms.TextBox();
@@ -50,6 +50,8 @@ namespace ImageQuantization
             this.totalTimeTextBox = new System.Windows.Forms.TextBox();
             this.numOfClustersLabel = new System.Windows.Forms.Label();
             this.numOfClustersTextBox = new System.Windows.Forms.TextBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.autoTestButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
@@ -58,21 +60,23 @@ namespace ImageQuantization
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(4, 4);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(427, 360);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.Size = new System.Drawing.Size(579, 452);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(4, 4);
+            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox2.Location = new System.Drawing.Point(0, 0);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(412, 360);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox2.Size = new System.Drawing.Size(556, 452);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
@@ -99,28 +103,28 @@ namespace ImageQuantization
             this.label1.TabIndex = 3;
             this.label1.Text = "Original Image";
             // 
-            // label2
+            // quantizedLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(807, 484);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(185, 24);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Quantized Image";
+            this.quantizedLabel.AutoSize = true;
+            this.quantizedLabel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.quantizedLabel.Location = new System.Drawing.Point(807, 484);
+            this.quantizedLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.quantizedLabel.Name = "quantizedLabel";
+            this.quantizedLabel.Size = new System.Drawing.Size(185, 24);
+            this.quantizedLabel.TabIndex = 4;
+            this.quantizedLabel.Text = "Quantized Image";
             // 
-            // btnGaussSmooth
+            // btnQuantize
             // 
-            this.btnGaussSmooth.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGaussSmooth.Location = new System.Drawing.Point(588, 526);
-            this.btnGaussSmooth.Margin = new System.Windows.Forms.Padding(4);
-            this.btnGaussSmooth.Name = "btnGaussSmooth";
-            this.btnGaussSmooth.Size = new System.Drawing.Size(135, 76);
-            this.btnGaussSmooth.TabIndex = 5;
-            this.btnGaussSmooth.Text = "Quantize";
-            this.btnGaussSmooth.UseVisualStyleBackColor = true;
-            this.btnGaussSmooth.Click += new System.EventHandler(this.btnGaussSmooth_Click);
+            this.btnQuantize.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnQuantize.Location = new System.Drawing.Point(588, 526);
+            this.btnQuantize.Margin = new System.Windows.Forms.Padding(4);
+            this.btnQuantize.Name = "btnQuantize";
+            this.btnQuantize.Size = new System.Drawing.Size(135, 76);
+            this.btnQuantize.TabIndex = 5;
+            this.btnQuantize.Text = "Quantize";
+            this.btnQuantize.UseVisualStyleBackColor = true;
+            this.btnQuantize.Click += new System.EventHandler(this.btnQuantize_Click);
             // 
             // label4
             // 
@@ -135,6 +139,7 @@ namespace ImageQuantization
             // 
             // txtHeight
             // 
+            this.txtHeight.Enabled = false;
             this.txtHeight.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHeight.Location = new System.Drawing.Point(97, 573);
             this.txtHeight.Margin = new System.Windows.Forms.Padding(4);
@@ -146,6 +151,7 @@ namespace ImageQuantization
             // 
             // txtWidth
             // 
+            this.txtWidth.Enabled = false;
             this.txtWidth.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtWidth.Location = new System.Drawing.Point(97, 526);
             this.txtWidth.Margin = new System.Windows.Forms.Padding(4);
@@ -309,11 +315,31 @@ namespace ImageQuantization
             this.numOfClustersTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numOfClustersTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(628, 485);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(558, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar1.TabIndex = 1;
+            // 
+            // autoTestButton
+            // 
+            this.autoTestButton.Location = new System.Drawing.Point(452, 485);
+            this.autoTestButton.Name = "autoTestButton";
+            this.autoTestButton.Size = new System.Drawing.Size(109, 23);
+            this.autoTestButton.TabIndex = 26;
+            this.autoTestButton.Text = "AutoTest";
+            this.autoTestButton.UseVisualStyleBackColor = true;
+            this.autoTestButton.Click += new System.EventHandler(this.autoTestButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1205, 615);
+            this.Controls.Add(this.autoTestButton);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.numOfClustersTextBox);
             this.Controls.Add(this.numOfClustersLabel);
             this.Controls.Add(this.totalTimeTextBox);
@@ -330,8 +356,8 @@ namespace ImageQuantization
             this.Controls.Add(this.txtWidth);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtHeight);
-            this.Controls.Add(this.btnGaussSmooth);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnQuantize);
+            this.Controls.Add(this.quantizedLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnOpen);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -340,9 +366,7 @@ namespace ImageQuantization
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,8 +378,8 @@ namespace ImageQuantization
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnGaussSmooth;
+        private System.Windows.Forms.Label quantizedLabel;
+        private System.Windows.Forms.Button btnQuantize;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtHeight;
         private System.Windows.Forms.TextBox txtWidth;
@@ -372,6 +396,8 @@ namespace ImageQuantization
         private System.Windows.Forms.TextBox totalTimeTextBox;
         private System.Windows.Forms.Label numOfClustersLabel;
         private System.Windows.Forms.TextBox numOfClustersTextBox;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button autoTestButton;
     }
 }
 
